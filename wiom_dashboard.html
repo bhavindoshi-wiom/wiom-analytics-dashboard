@@ -34,7 +34,7 @@
   .shdr h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
   .sline{flex:1;height:1px;background:var(--border)}
   .sbadge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
-  .sb-teal{background:var(--teal-dim);color:var(--teal)}.sb-blue{background:var(--blue-dim);color:var(--blue)}.sb-amber{background:var(--amber-dim);color:var(--amber)}
+  .sb-teal{background:var(--teal-dim);color:var(--teal)}.sb-blue{background:var(--blue-dim);color:var(--blue)}.sb-amber{background:var(--amber-dim);color:var(--amber)}.sb-coral{background:var(--coral-dim);color:var(--coral)}
   .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
   .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;transition:border-color .15s}
   .kpi:hover{border-color:var(--border2)}
@@ -56,46 +56,43 @@
   .bs-wrap{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--bg4);gap:1px;width:120px}.bs{height:100%}
   .fw{display:flex;flex-direction:column;gap:3px;width:90px}.fb{height:4px;border-radius:2px;background:var(--bg4);overflow:hidden}.ff{height:100%;border-radius:2px}
   .er td{text-align:center!important;color:var(--text3)!important;padding:20px!important;font-family:var(--font)!important}
-  .footer{border-top:1px solid var(--border);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
-  .ft{font-size:11px;color:var(--text3)}
-
-  /* ── COMPARISON VIEW ─────────────────────────────────────────── */
-  .cmp-section{margin-bottom:32px}
+  /* fix banner */
+  .fix-banner{background:rgba(45,212,191,.07);border:1px solid rgba(45,212,191,.2);border-radius:var(--r2);padding:10px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
+  .fix-icon{font-size:14px;margin-top:1px;flex-shrink:0}
+  .fix-text{font-size:12px;color:var(--text2);line-height:1.5}
+  .fix-text strong{color:var(--teal);font-weight:600}
+  /* comparison */
   .cmp-table{width:100%;border-collapse:collapse;font-size:13px}
   .cmp-table thead tr{background:var(--bg3)}
   .cmp-table th{padding:10px 16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);border-bottom:1px solid var(--border)}
-  .cmp-table th.metric-col{text-align:left;width:220px}
+  .cmp-table th.metric-col{text-align:left;width:230px}
   .cmp-table th.payg-col{text-align:right;color:var(--teal)}
   .cmp-table th.nonpayg-col{text-align:right;color:var(--blue)}
   .cmp-table th.bar-col{text-align:center;width:160px}
-  .cmp-table th.delta-col{text-align:center;width:100px}
+  .cmp-table th.delta-col{text-align:center;width:110px}
   .cmp-table td{padding:10px 16px;border-bottom:1px solid var(--border)}
   .cmp-table tbody tr:last-child td{border-bottom:none}
-  .cmp-table tbody tr:hover td{background:var(--bg3)}
+  .cmp-table tbody tr:not(.group-row):hover td{background:var(--bg3)}
   .cmp-table .metric-lbl{font-size:13px;font-weight:500;color:var(--text)}
-  .cmp-table .metric-sub{font-size:11px;color:var(--text3);margin-top:1px;font-family:var(--font)}
+  .cmp-table .metric-sub{font-size:11px;color:var(--text3);margin-top:1px}
   .cmp-table .val-cell{text-align:right;font-family:var(--mono);font-size:13px}
   .cmp-table .val-main{color:var(--text)}
   .cmp-table .val-pct{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--font)}
-  /* dual bar */
   .dual-bar{display:flex;align-items:center;gap:4px;justify-content:center;padding:0 8px}
   .bar-payg-wrap{flex:1;display:flex;justify-content:flex-end}
   .bar-nonpayg-wrap{flex:1;display:flex;justify-content:flex-start}
-  .bpg{height:8px;border-radius:2px 0 0 2px;background:var(--teal);min-width:2px;transition:width .3s}
-  .bnpg{height:8px;border-radius:0 2px 2px 0;background:var(--blue);min-width:2px;transition:width .3s}
+  .bpg{height:8px;border-radius:2px 0 0 2px;background:var(--teal);min-width:2px}
+  .bnpg{height:8px;border-radius:0 2px 2px 0;background:var(--blue);min-width:2px}
   .bar-center-tick{width:1px;height:14px;background:var(--border2);flex-shrink:0}
-  /* delta badge */
   .delta{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;font-family:var(--mono)}
-  .delta-payg{background:var(--teal-dim);color:var(--teal)}
-  .delta-nonpayg{background:var(--blue-dim);color:var(--blue)}
-  .delta-neutral{background:rgba(100,116,139,.12);color:var(--text3)}
-  /* section group row */
+  .delta-payg{background:var(--teal-dim);color:var(--teal)}.delta-nonpayg{background:var(--blue-dim);color:var(--blue)}.delta-neutral{background:rgba(100,116,139,.12);color:var(--text3)}
   .group-row td{background:var(--bg3)!important;padding:8px 16px!important;border-bottom:1px solid var(--border)!important;border-top:1px solid var(--border2)!important}
   .group-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
   .group-row:first-child td{border-top:none!important}
-  /* indent sub-metrics */
   .sub-metric .metric-lbl{font-size:12px;color:var(--text2);padding-left:16px}
   .sub-metric td{background:rgba(28,35,48,.5)}
+  .footer{border-top:1px solid var(--border);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+  .ft{font-size:11px;color:var(--text3)}
 </style>
 </head>
 <body>
@@ -121,6 +118,15 @@
 
 <!-- ══ VIEW 1 ══════════════════════════════════════════════════ -->
 <div class="view active" id="v1">
+  <div class="fix-banner">
+    <div class="fix-icon">✦</div>
+    <div class="fix-text">
+      <strong>(b) Self PUT</strong> now counts only <strong>customer app-created</strong> pickup tickets within R0–15 (ticket raised &lt;14 days after plan expiry, initiated by the customer on the app).
+      System-auto-generated tickets that happen to fall within the R0–15 window are correctly moved to <strong>(c) No action</strong>.
+      This makes PayG vs NonPayG Self PUT rates meaningfully comparable — PayG has the in-app self-creation feature; NonPayG does not.
+    </div>
+  </div>
+
   <div class="filter-bar">
     <div class="fg"><span class="fl">User type</span>
       <select id="v1-user" onchange="renderV1()">
@@ -135,23 +141,30 @@
     </div>
     <span id="v1-badge" class="abadge"></span>
   </div>
+
   <div class="kpi-grid" id="v1-kpis"></div>
+
   <div class="shdr" style="margin-top:0"><h3>Expiry cohort breakdown</h3><div class="sline"></div>
-    <span class="sbadge sb-teal">R15-matured only</span><span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
+    <span class="sbadge sb-teal">R15-matured only</span>
+    <span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
+    <span class="sbadge sb-coral">Self PUT = app-created only</span>
   </div>
+
   <div class="tw"><table>
     <thead><tr>
-      <th class="l" style="width:100px">Period</th><th style="width:92px"># Expiries</th>
+      <th class="l" style="width:100px">Period</th>
+      <th style="width:92px"># Expiries</th>
       <th style="width:92px">(a) Recharge</th><th style="width:56px">%</th>
-      <th style="width:92px">(b) Self PUT</th><th style="width:56px">%</th>
+      <th style="width:108px">(b) Self PUT ↗</th><th style="width:56px">%</th>
       <th style="width:92px">(c) No action</th><th style="width:56px">%</th>
       <th style="min-width:140px">Breakdown</th>
     </tr></thead>
     <tbody id="v1-tbody"></tbody>
   </table></div>
+
   <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
     <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge</span>
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT (app-created)</span>
     <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fb7185;display:inline-block"></span>(c) No action</span>
     <span style="font-size:11px;color:var(--text3);margin-left:8px">a + b + c = total expiries</span>
   </div>
@@ -225,7 +238,6 @@
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;border-radius:2px;background:var(--blue);display:inline-block"></span>NonPayG</span>
     </span>
   </div>
-
   <div class="tw">
     <table class="cmp-table">
       <thead><tr>
@@ -238,11 +250,10 @@
       <tbody id="cmp-tbody"></tbody>
     </table>
   </div>
-
   <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:-16px;padding:0 4px">
-    <span style="font-size:11px;color:var(--text3)">Bar width = rate relative to 100% max scale · Bars meet at centre</span>
-    <span style="font-size:11px;display:flex;align-items:center;gap:5px;color:var(--teal)">▲ PayG = PayG performs better on this metric</span>
-    <span style="font-size:11px;display:flex;align-items:center;gap:5px;color:var(--blue)">▲ NonPayG = NonPayG performs better</span>
+    <span style="font-size:11px;color:var(--text3)">Bar width = rate relative to max · Bars grow from centre</span>
+    <span style="font-size:11px;color:var(--teal)">▲ PayG = PayG performs better</span>
+    <span style="font-size:11px;color:var(--blue)">▲ NonPayG = NonPayG performs better</span>
   </div>
 </div>
 
@@ -252,31 +263,34 @@
 </footer>
 
 <script>
-/* ═══════════════════════════ DATA ══════════════════════════════ */
+/* ═══════════════════════════ DATA ═══════════════════════════ */
+
+// View 1 — corrected: Self PUT = app-created tickets only (mins_after_expiry < 20160)
 const V1=[
-  {v:"Weekly",p:"2026-01-26",u:"NonPayG",e:38099,r:33187,s:1509,n:3403},
-  {v:"Weekly",p:"2026-01-26",u:"PayG",e:170,r:149,s:7,n:14},
-  {v:"Weekly",p:"2026-02-02",u:"NonPayG",e:37558,r:32202,s:1428,n:3928},
-  {v:"Weekly",p:"2026-02-02",u:"PayG",e:456,r:410,s:8,n:38},
-  {v:"Weekly",p:"2026-02-09",u:"NonPayG",e:33739,r:28631,s:1234,n:3874},
-  {v:"Weekly",p:"2026-02-09",u:"PayG",e:556,r:525,s:7,n:24},
-  {v:"Weekly",p:"2026-02-16",u:"NonPayG",e:32586,r:27530,s:1189,n:3867},
-  {v:"Weekly",p:"2026-02-16",u:"PayG",e:630,r:590,s:7,n:33},
-  {v:"Weekly",p:"2026-02-23",u:"NonPayG",e:33754,r:28724,s:1211,n:3819},
-  {v:"Weekly",p:"2026-02-23",u:"PayG",e:730,r:684,s:15,n:31},
-  {v:"Weekly",p:"2026-03-02",u:"NonPayG",e:33882,r:29150,s:1289,n:3443},
-  {v:"Weekly",p:"2026-03-02",u:"PayG",e:951,r:888,s:15,n:48},
-  {v:"Weekly",p:"2026-03-09",u:"NonPayG",e:31399,r:26882,s:1219,n:3298},
-  {v:"Weekly",p:"2026-03-09",u:"PayG",e:1071,r:973,s:26,n:72},
-  {v:"Weekly",p:"2026-03-16",u:"NonPayG",e:4329,r:3696,s:91,n:542},
-  {v:"Weekly",p:"2026-03-16",u:"PayG",e:155,r:137,s:3,n:15},
-  {v:"Monthly",p:"2026-01",u:"NonPayG",e:32338,r:28201,s:1244,n:2893},
-  {v:"Monthly",p:"2026-01",u:"PayG",e:109,r:96,s:3,n:10},
-  {v:"Monthly",p:"2026-02",u:"NonPayG",e:138125,r:117542,s:5141,n:15442},
-  {v:"Monthly",p:"2026-02",u:"PayG",e:2323,r:2156,s:39,n:128},
-  {v:"Monthly",p:"2026-03",u:"NonPayG",e:74883,r:64259,s:2785,n:7839},
-  {v:"Monthly",p:"2026-03",u:"PayG",e:2287,r:2104,s:46,n:137}
+  {v:"Weekly",p:"2026-01-26",u:"NonPayG",e:38099,r:33187,s:139,n:4773},
+  {v:"Weekly",p:"2026-01-26",u:"PayG",   e:170,  r:149,  s:6,  n:15},
+  {v:"Weekly",p:"2026-02-02",u:"NonPayG",e:37558,r:32202,s:131,n:5225},
+  {v:"Weekly",p:"2026-02-02",u:"PayG",   e:456,  r:410,  s:5,  n:41},
+  {v:"Weekly",p:"2026-02-09",u:"NonPayG",e:33739,r:28631,s:99, n:5009},
+  {v:"Weekly",p:"2026-02-09",u:"PayG",   e:556,  r:525,  s:6,  n:25},
+  {v:"Weekly",p:"2026-02-16",u:"NonPayG",e:32586,r:27530,s:92, n:4964},
+  {v:"Weekly",p:"2026-02-16",u:"PayG",   e:630,  r:590,  s:5,  n:35},
+  {v:"Weekly",p:"2026-02-23",u:"NonPayG",e:33754,r:28724,s:93, n:4937},
+  {v:"Weekly",p:"2026-02-23",u:"PayG",   e:730,  r:684,  s:8,  n:38},
+  {v:"Weekly",p:"2026-03-02",u:"NonPayG",e:33882,r:29150,s:118,n:4614},
+  {v:"Weekly",p:"2026-03-02",u:"PayG",   e:951,  r:888,  s:5,  n:58},
+  {v:"Weekly",p:"2026-03-09",u:"NonPayG",e:31399,r:26882,s:123,n:4394},
+  {v:"Weekly",p:"2026-03-09",u:"PayG",   e:1071, r:973,  s:11, n:87},
+  {v:"Weekly",p:"2026-03-16",u:"NonPayG",e:4329, r:3698, s:26, n:605},
+  {v:"Weekly",p:"2026-03-16",u:"PayG",   e:155,  r:137,  s:2,  n:16},
+  {v:"Monthly",p:"2026-01",  u:"NonPayG",e:32338,r:28201,s:115,n:4022},
+  {v:"Monthly",p:"2026-01",  u:"PayG",   e:109,  r:96,   s:3,  n:10},
+  {v:"Monthly",p:"2026-02",  u:"NonPayG",e:138125,r:117542,s:429,n:20154},
+  {v:"Monthly",p:"2026-02",  u:"PayG",   e:2323, r:2156, s:27, n:140},
+  {v:"Monthly",p:"2026-03",  u:"NonPayG",e:74883,r:64261,s:277,n:10345},
+  {v:"Monthly",p:"2026-03",  u:"PayG",   e:2287, r:2104, s:18, n:165}
 ];
+
 const V23=[
   {k:"Self",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:351,op:0,sw:150,rs:201,cr:29,rr:171,ui:1,prr:0,pu:0,prf:0},
   {k:"Self",v:"Weekly",p:"2026-01-26",u:"PayG",t:4,op:0,sw:1,rs:3,cr:1,rr:2,ui:0,prr:2,pu:0,prf:0},
@@ -329,7 +343,7 @@ const V23=[
   {k:"System",v:"Monthly",p:"2026-03",u:"PayG",t:208,op:92,sw:22,rs:94,cr:65,rr:29,ui:0,prr:29,pu:7,prf:7}
 ];
 
-/* ═══════════════════════════ HELPERS ═══════════════════════════ */
+/* ═══════════════════════════ HELPERS ═══════════════════════ */
 const fN=n=>n.toLocaleString('en-IN');
 const fK=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':String(n);
 const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
@@ -349,7 +363,7 @@ function setTBadge(el,k){
   const x=m[k]||m.All;el.textContent=x.l;el.style.background=x.bg;el.style.color=x.c;
 }
 
-/* ═══════════════════════════ VIEW 1 ════════════════════════════ */
+/* ═══════════════════════════ VIEW 1 ═════════════════════════ */
 function gV1(u,t){
   const rows=V1.filter(r=>r.v===t);
   const periods=[...new Set(rows.map(r=>r.p))].sort();
@@ -366,13 +380,17 @@ function renderV1(){
   const u=document.getElementById('v1-user').value,t=document.getElementById('v1-time').value,data=gV1(u,t);
   setBadge(document.getElementById('v1-badge'),u);
   const tE=data.reduce((a,x)=>a+x.e,0),tR=data.reduce((a,x)=>a+x.r,0),tS=data.reduce((a,x)=>a+x.s,0),tN=data.reduce((a,x)=>a+x.n,0);
-  document.getElementById('v1-kpis').innerHTML=`<div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div><div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div><div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15</div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div><div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
+  document.getElementById('v1-kpis').innerHTML=`
+    <div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div>
+    <div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div>
+    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15 ↗</div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries · app-created</div></div>
+    <div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
   const rows=data.map(d=>v1Row(d,pl(d.period,t),false));
   rows.push(v1Row({e:tE,r:tR,s:tS,n:tN},'TOTAL',true));
   document.getElementById('v1-tbody').innerHTML=rows.length>1?rows.join(''):`<tr class="er"><td colspan="9">No data</td></tr>`;
 }
 
-/* ═══════════════════════════ VIEW 2+3 ══════════════════════════ */
+/* ═══════════════════════════ VIEW 2+3 ═══════════════════════ */
 function gV23(u,t,k){
   let rows=V23.filter(r=>r.v===t);
   if(k!=='All') rows=rows.filter(r=>r.k===k);
@@ -406,87 +424,49 @@ function renderV23(){
   }
 }
 
-/* ═══════════════════════════ COMPARISON VIEW ═══════════════════ */
-function sumV1(u,t){
-  const rows=V1.filter(r=>r.v===t&&r.u===u);
-  return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};
-}
-function sumV23(u,t,k){
-  let rows=V23.filter(r=>r.v===t&&r.u===u);
-  if(k!=='All') rows=rows.filter(r=>r.k===k);
-  return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};
-}
+/* ═══════════════════════════ COMPARISON ════════════════════ */
+function sumV1(u,t){const rows=V1.filter(r=>r.v===t&&r.u===u);return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};}
+function sumV23(u,t,k){let rows=V23.filter(r=>r.v===t&&r.u===u);if(k!=='All')rows=rows.filter(r=>r.k===k);return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};}
 
-/* Build one comparison row
-   winner: 'payg' | 'nonpayg' | 'neutral'
-   higherIsBetter: true = higher% is better, false = lower% is better */
-function cmpRow(label, sub, pgVal, pgPct, npgVal, npgPct, higherIsBetter, isSubMetric){
-  const pgP=pgPct??0, npP=npgPct??0;
+function cmpRow(label,sub,pgVal,pgPct,npgVal,npgPct,higherIsBetter,isSubMetric){
+  const pgP=pgPct??0,npP=npgPct??0;
   const scale=Math.max(pgP,npP,1);
-  const pgW=Math.round(pgP/scale*72), npW=Math.round(npP/scale*72);
+  const pgW=Math.round(pgP/scale*72),npW=Math.round(npP/scale*72);
   const diff=pgP-npP;
-  const winner = Math.abs(diff)<0.5 ? 'neutral' : (higherIsBetter ? (diff>0?'payg':'nonpayg') : (diff<0?'payg':'nonpayg'));
-  const deltaLabel = winner==='neutral' ? '≈ Equal' : (winner==='payg'?'▲ PayG':'▲ NonPayG');
-  const deltaCls = winner==='neutral'?'delta-neutral':winner==='payg'?'delta-payg':'delta-nonpayg';
-  const ppDiff = Math.abs(diff)>=0.5 ? ` ${Math.abs(diff).toFixed(1)}pp` : '';
-  const rowCls = isSubMetric ? ' class="sub-metric"' : '';
-  return `<tr${rowCls}>
+  const winner=Math.abs(diff)<0.5?'neutral':(higherIsBetter===null?'neutral':(higherIsBetter?(diff>0?'payg':'nonpayg'):(diff<0?'payg':'nonpayg')));
+  const deltaLabel=winner==='neutral'?'≈ Equal':(winner==='payg'?'▲ PayG':'▲ NonPayG');
+  const deltaCls=winner==='neutral'?'delta-neutral':winner==='payg'?'delta-payg':'delta-nonpayg';
+  const ppDiff=Math.abs(diff)>=0.5?` ${Math.abs(diff).toFixed(1)}pp`:'';
+  const rowCls=isSubMetric?' class="sub-metric"':'';
+  return`<tr${rowCls}>
     <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
-    <td class="val-cell" style="text-align:right">
-      <div class="val-main c-teal">${pgVal!==null?fN(pgVal):'—'}</div>
-      ${pgPct!==null?`<div class="val-pct">${pgPct.toFixed(1)}%</div>`:''}
-    </td>
-    <td>
-      <div class="dual-bar">
-        <div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div>
-        <div class="bar-center-tick"></div>
-        <div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div>
-      </div>
-    </td>
-    <td class="val-cell" style="text-align:right">
-      <div class="val-main c-blue">${npgVal!==null?fN(npgVal):'—'}</div>
-      ${npgPct!==null?`<div class="val-pct">${npgPct.toFixed(1)}%</div>`:''}
-    </td>
+    <td class="val-cell" style="text-align:right"><div class="val-main c-teal">${pgVal!==null?fN(pgVal):'—'}</div>${pgPct!==null?`<div class="val-pct">${pgPct.toFixed(1)}%</div>`:''}</td>
+    <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td>
+    <td class="val-cell" style="text-align:right"><div class="val-main c-blue">${npgVal!==null?fN(npgVal):'—'}</div>${npgPct!==null?`<div class="val-pct">${npgPct.toFixed(1)}%</div>`:''}</td>
     <td style="text-align:center"><span class="delta ${deltaCls}">${deltaLabel}${ppDiff}</span></td>
   </tr>`;
 }
-
-function groupRow(label){
-  return`<tr class="group-row"><td colspan="5"><span class="group-label">${label}</span></td></tr>`;
-}
-
-function volRow(label, sub, pgV, npgV){
-  // Volume row — no percentage, no winner
-  return`<tr>
-    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
-    <td class="val-cell" style="text-align:right"><div class="val-main c-teal">${fN(pgV)}</div></td>
-    <td><div style="text-align:center;font-size:11px;color:var(--text3)">volume</div></td>
-    <td class="val-cell" style="text-align:right"><div class="val-main c-blue">${fN(npgV)}</div></td>
-    <td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td>
-  </tr>`;
+function groupRow(label){return`<tr class="group-row"><td colspan="5"><span class="group-label">${label}</span></td></tr>`;}
+function volRow(label,sub,pgV,npgV){
+  return`<tr><td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td><td class="val-cell" style="text-align:right"><div class="val-main c-teal">${fN(pgV)}</div></td><td><div style="text-align:center;font-size:11px;color:var(--text3)">volume only</div></td><td class="val-cell" style="text-align:right"><div class="val-main c-blue">${fN(npgV)}</div></td><td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td></tr>`;
 }
 
 function renderCmp(){
   const t=document.getElementById('cmp-time').value;
   const k=document.getElementById('cmp-type').value;
-
-  const pg1=sumV1('PayG',t), npg1=sumV1('NonPayG',t);
-  const pgP=sumV23('PayG',t,k), npgP=sumV23('NonPayG',t,k);
-
-  // PayG funnel — always all-ticket-type split for self vs system comparison
-  const pgSelf=sumV23('PayG',t,'Self'), pgSys=sumV23('PayG',t,'System');
-
+  const pg1=sumV1('PayG',t),npg1=sumV1('NonPayG',t);
+  const pgP=sumV23('PayG',t,k),npgP=sumV23('NonPayG',t,k);
+  const pgSelf=sumV23('PayG',t,'Self'),pgSys=sumV23('PayG',t,'System');
   const rows=[];
 
-  // ── SECTION 1: PLAN EXPIRY ─────────────────────────────────────
   rows.push(groupRow('Plan Expiry Funnel — R0–15 window (R15-matured expiries only)'));
   rows.push(volRow('Total plan expiries','All expiries where R15 has elapsed',pg1.e,npg1.e));
   rows.push(cmpRow('(a) Recharge R0–15','Customer bought next plan within 15 days of expiry',pg1.r,pctN(pg1.r,pg1.e),npg1.r,pctN(npg1.r,npg1.e),true,false));
-  rows.push(cmpRow('(b) Self PUT R0–15','ROUTER_PICKUP ticket created within 15 days of expiry (no recharge)',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),false,false));
-  rows.push(cmpRow('(c) No action R0–15','Neither recharged nor PUT ticket within R0–15',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
+  rows.push(cmpRow('(b) Self PUT R0–15 ↗','App-created ROUTER_PICKUP ticket within 15 days (PayG in-app feature)',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),true,false));
+  rows.push(cmpRow('→ Self PUT as % of churned','% of non-rechargers who still self-initiated a PUT',pg1.s,pctN(pg1.s,pg1.s+pg1.n),npg1.s,pctN(npg1.s,npg1.s+npg1.n),true,true));
+  rows.push(cmpRow('(c) No action R0–15','Neither recharged nor app-created a PUT within R0–15',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
 
-  // ── SECTION 2: TICKET STATUS ───────────────────────────────────
-  const ticketTypeLabel = k==='Self'?'Self-Created':k==='System'?'System-Created':'All';
+  const ticketTypeLabel=k==='Self'?'Self-Created':k==='System'?'System-Created':'All';
   rows.push(groupRow(`Pickup Tickets — Status Breakdown (${ticketTypeLabel})`));
   rows.push(volRow('Total PUT tickets','ROUTER_PICKUP tasks from Jan 26, 2026',pgP.t,npgP.t));
   rows.push(cmpRow('Open rate','Tickets with status 0 or 1 (unresolved)',pgP.op,pctN(pgP.op,pgP.t),npgP.op,pctN(npgP.op,npgP.t),false,false));
@@ -496,30 +476,27 @@ function renderCmp(){
   rows.push(cmpRow('→ Router recovered','% of resolved where router was physically picked up',pgP.rr,pctN(pgP.rr,pgP.rs),npgP.rr,pctN(npgP.rr,npgP.rs),null,true));
   rows.push(cmpRow('→ Unidentified','% of resolved with no recovery type and no payment',pgP.ui,pctN(pgP.ui,pgP.rs),npgP.ui,pctN(npgP.ui,npgP.rs),false,true));
 
-  // ── SECTION 3: PAYG RECOVERY FUNNEL ───────────────────────────
   rows.push(groupRow('PayG Recovery Funnel — Self-Created Tickets'));
   rows.push(volRow('Router recovered (self PUT)','Resolved with ROUTER_RECOVERED',pgSelf.prr,0));
-  rows.push(cmpRow('UPI added','% of recovered where customer added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr),null,null,true,false));
-  rows.push(cmpRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu),null,null,true,false));
+  rows.push(cmpRow('UPI add rate','% of recovered PayG customers who added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr),null,null,null,false));
+  rows.push(cmpRow('Refund completion rate','% of UPI-added where refund status = SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu),null,null,null,false));
 
   rows.push(groupRow('PayG Recovery Funnel — System-Created Tickets'));
   rows.push(volRow('Router recovered (system PUT)','Resolved with ROUTER_RECOVERED',pgSys.prr,0));
-  rows.push(cmpRow('UPI added','% of recovered where customer added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr),null,null,true,false));
-  rows.push(cmpRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu),null,null,true,false));
+  rows.push(cmpRow('UPI add rate','% of recovered PayG customers who added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr),null,null,null,false));
+  rows.push(cmpRow('Refund completion rate','% of UPI-added where refund status = SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu),null,null,null,false));
 
   document.getElementById('cmp-tbody').innerHTML=rows.join('');
 }
 
-/* ═══════════════════════════ TAB SWITCH ════════════════════════ */
+/* ═══════════════════════════ TAB ════════════════════════════ */
 function switchTab(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
 }
 
-/* ═══════════════════════════ INIT ══════════════════════════════ */
-renderV1(); renderV23(); renderCmp();
+renderV1();renderV23();renderCmp();
 </script>
 </body>
 </html>
