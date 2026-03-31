@@ -9,25 +9,19 @@
   :root{--bg:#0d1117;--bg2:#161b22;--bg3:#1c2330;--bg4:#21293a;--bg-total:#1a2535;--border:#2a3545;--border2:#334155;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--teal:#2dd4bf;--teal2:#0d9488;--teal-dim:rgba(45,212,191,.12);--blue:#60a5fa;--blue-dim:rgba(96,165,250,.12);--amber:#fbbf24;--amber-dim:rgba(251,191,36,.12);--coral:#fb7185;--coral-dim:rgba(251,113,133,.12);--green:#4ade80;--slate:#94a3b8;--font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;--r:6px;--r2:10px}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
-  /* HEADER */
   .hdr{border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;background:var(--bg)}
   .hdr-l{display:flex;align-items:center;gap:14px}
   .logo{width:28px;height:28px;border-radius:6px;background:var(--teal2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:500;color:#fff;flex-shrink:0}
-  .hdr-title{font-size:14px;font-weight:600}
-  .hdr-dot{color:var(--border2)}
-  .hdr-sub{font-size:12px;color:var(--text3)}
+  .hdr-title{font-size:14px;font-weight:600}.hdr-dot{color:var(--border2)}.hdr-sub{font-size:12px;color:var(--text3)}
   .hdr-r{display:flex;align-items:center;gap:10px}
   .data-tag{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono)}
   .live-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  /* TABS */
-  .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 32px;background:var(--bg);position:sticky;top:56px;z-index:99}
-  .tab{padding:12px 20px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap}
+  .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 32px;background:var(--bg);position:sticky;top:56px;z-index:99;overflow-x:auto}
+  .tab{padding:12px 18px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap}
   .tab:hover{color:var(--text2)}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
   .tab-num{font-size:10px;padding:1px 6px;border-radius:10px;background:var(--bg3);color:var(--text3);margin-left:6px;font-family:var(--mono)}
-  /* VIEWS */
   .view{display:none;padding:28px 32px 48px}.view.active{display:block}
-  /* FILTERS */
   .filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
   .fg{display:flex;align-items:center;gap:6px}
   .fl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
@@ -35,22 +29,17 @@
   select:hover{border-color:var(--text3)}select:focus{border-color:var(--teal)}
   .fsep{width:1px;height:18px;background:var(--border);margin:0 4px}
   .abadge{font-size:11px;padding:3px 10px;border-radius:20px;font-family:var(--mono);font-weight:500;margin-left:4px}
-  /* SECTION */
   .shdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;margin-top:28px}
   .shdr:first-of-type{margin-top:0}
   .shdr h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
   .sline{flex:1;height:1px;background:var(--border)}
   .sbadge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
   .sb-teal{background:var(--teal-dim);color:var(--teal)}.sb-blue{background:var(--blue-dim);color:var(--blue)}.sb-amber{background:var(--amber-dim);color:var(--amber)}
-  /* KPIs */
   .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
   .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;transition:border-color .15s}
   .kpi:hover{border-color:var(--border2)}
-  .kpi-lbl{font-size:11px;color:var(--text3);margin-bottom:8px;letter-spacing:.02em}
-  .kpi-val{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1}
-  .kpi-sub{font-size:11px;color:var(--text3);margin-top:5px}
+  .kpi-lbl{font-size:11px;color:var(--text3);margin-bottom:8px}.kpi-val{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1}.kpi-sub{font-size:11px;color:var(--text3);margin-top:5px}
   .kpi-sub.teal{color:var(--teal2)}.kpi-sub.amber{color:var(--amber)}.kpi-sub.coral{color:var(--coral)}.kpi-sub.blue{color:var(--blue)}
-  /* TABLE */
   .tw{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--border);margin-bottom:28px}
   table{width:100%;border-collapse:collapse;font-size:12.5px}
   thead{background:var(--bg3)}
@@ -60,23 +49,53 @@
   td.l{text-align:left;font-family:var(--font);font-weight:500;font-size:12px;white-space:nowrap;color:var(--text)}
   tbody tr:last-child td{border-bottom:none}
   tbody tr:not(.tr):hover td{background:var(--bg3)}
-  /* TOTAL ROW */
   .tr td{background:var(--bg-total)!important;border-top:1px solid var(--border2)!important;border-bottom:none!important;font-weight:500}
   .tr td.l{color:var(--teal);font-family:var(--mono);font-size:11px;letter-spacing:.05em}
   .td-sub{font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--font)}
-  /* colours */
   .c-teal{color:var(--teal)}.c-blue{color:var(--blue)}.c-amber{color:var(--amber)}.c-coral{color:var(--coral)}.c-green{color:var(--green)}.c-slate{color:var(--slate)}
-  /* bars */
-  .bs-wrap{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--bg4);gap:1px;width:120px}
-  .bs{height:100%}
-  .fw{display:flex;flex-direction:column;gap:3px;width:90px}
-  .fb{height:4px;border-radius:2px;background:var(--bg4);overflow:hidden}
-  .ff{height:100%;border-radius:2px}
-  /* empty */
+  .bs-wrap{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--bg4);gap:1px;width:120px}.bs{height:100%}
+  .fw{display:flex;flex-direction:column;gap:3px;width:90px}.fb{height:4px;border-radius:2px;background:var(--bg4);overflow:hidden}.ff{height:100%;border-radius:2px}
   .er td{text-align:center!important;color:var(--text3)!important;padding:20px!important;font-family:var(--font)!important}
-  /* footer */
   .footer{border-top:1px solid var(--border);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
   .ft{font-size:11px;color:var(--text3)}
+
+  /* ── COMPARISON VIEW ─────────────────────────────────────────── */
+  .cmp-section{margin-bottom:32px}
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+  .cmp-table thead tr{background:var(--bg3)}
+  .cmp-table th{padding:10px 16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);border-bottom:1px solid var(--border)}
+  .cmp-table th.metric-col{text-align:left;width:220px}
+  .cmp-table th.payg-col{text-align:right;color:var(--teal)}
+  .cmp-table th.nonpayg-col{text-align:right;color:var(--blue)}
+  .cmp-table th.bar-col{text-align:center;width:160px}
+  .cmp-table th.delta-col{text-align:center;width:100px}
+  .cmp-table td{padding:10px 16px;border-bottom:1px solid var(--border)}
+  .cmp-table tbody tr:last-child td{border-bottom:none}
+  .cmp-table tbody tr:hover td{background:var(--bg3)}
+  .cmp-table .metric-lbl{font-size:13px;font-weight:500;color:var(--text)}
+  .cmp-table .metric-sub{font-size:11px;color:var(--text3);margin-top:1px;font-family:var(--font)}
+  .cmp-table .val-cell{text-align:right;font-family:var(--mono);font-size:13px}
+  .cmp-table .val-main{color:var(--text)}
+  .cmp-table .val-pct{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--font)}
+  /* dual bar */
+  .dual-bar{display:flex;align-items:center;gap:4px;justify-content:center;padding:0 8px}
+  .bar-payg-wrap{flex:1;display:flex;justify-content:flex-end}
+  .bar-nonpayg-wrap{flex:1;display:flex;justify-content:flex-start}
+  .bpg{height:8px;border-radius:2px 0 0 2px;background:var(--teal);min-width:2px;transition:width .3s}
+  .bnpg{height:8px;border-radius:0 2px 2px 0;background:var(--blue);min-width:2px;transition:width .3s}
+  .bar-center-tick{width:1px;height:14px;background:var(--border2);flex-shrink:0}
+  /* delta badge */
+  .delta{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;font-family:var(--mono)}
+  .delta-payg{background:var(--teal-dim);color:var(--teal)}
+  .delta-nonpayg{background:var(--blue-dim);color:var(--blue)}
+  .delta-neutral{background:rgba(100,116,139,.12);color:var(--text3)}
+  /* section group row */
+  .group-row td{background:var(--bg3)!important;padding:8px 16px!important;border-bottom:1px solid var(--border)!important;border-top:1px solid var(--border2)!important}
+  .group-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
+  .group-row:first-child td{border-top:none!important}
+  /* indent sub-metrics */
+  .sub-metric .metric-lbl{font-size:12px;color:var(--text2);padding-left:16px}
+  .sub-metric td{background:rgba(28,35,48,.5)}
 </style>
 </head>
 <body>
@@ -95,55 +114,41 @@
 </header>
 
 <nav class="tabs">
-  <button class="tab active" onclick="switchTab('v1',this)">View 1 — Plan Expiry Tracker <span class="tab-num">3 metrics</span></button>
+  <button class="tab active" onclick="switchTab('v1',this)">View 1 — Plan Expiry <span class="tab-num">3 metrics</span></button>
   <button class="tab" onclick="switchTab('v23',this)">View 2+3 — Pickup Tickets <span class="tab-num">Self &amp; System</span></button>
+  <button class="tab" onclick="switchTab('cmp',this)">PayG vs NonPayG <span class="tab-num">comparison</span></button>
 </nav>
 
-<!-- ══════ VIEW 1 ══════ -->
+<!-- ══ VIEW 1 ══════════════════════════════════════════════════ -->
 <div class="view active" id="v1">
   <div class="filter-bar">
     <div class="fg"><span class="fl">User type</span>
       <select id="v1-user" onchange="renderV1()">
-        <option value="All">All users</option>
-        <option value="PayG" selected>PayG</option>
-        <option value="NonPayG">NonPayG</option>
+        <option value="All">All users</option><option value="PayG" selected>PayG</option><option value="NonPayG">NonPayG</option>
       </select>
     </div>
     <div class="fsep"></div>
     <div class="fg"><span class="fl">Timeline</span>
       <select id="v1-time" onchange="renderV1()">
-        <option value="Weekly">Weekly</option>
-        <option value="Monthly" selected>Monthly</option>
+        <option value="Weekly">Weekly</option><option value="Monthly" selected>Monthly</option>
       </select>
     </div>
     <span id="v1-badge" class="abadge"></span>
   </div>
-
   <div class="kpi-grid" id="v1-kpis"></div>
-
-  <div class="shdr" style="margin-top:0">
-    <h3>Expiry cohort breakdown</h3><div class="sline"></div>
-    <span class="sbadge sb-teal">R15-matured only</span>
-    <span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
+  <div class="shdr" style="margin-top:0"><h3>Expiry cohort breakdown</h3><div class="sline"></div>
+    <span class="sbadge sb-teal">R15-matured only</span><span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
   </div>
-
-  <div class="tw">
-    <table>
-      <thead><tr>
-        <th class="l" style="width:100px">Period</th>
-        <th style="width:92px"># Expiries</th>
-        <th style="width:92px">(a) Recharge</th>
-        <th style="width:56px">%</th>
-        <th style="width:92px">(b) Self PUT</th>
-        <th style="width:56px">%</th>
-        <th style="width:92px">(c) No action</th>
-        <th style="width:56px">%</th>
-        <th style="min-width:140px">Breakdown</th>
-      </tr></thead>
-      <tbody id="v1-tbody"></tbody>
-    </table>
-  </div>
-
+  <div class="tw"><table>
+    <thead><tr>
+      <th class="l" style="width:100px">Period</th><th style="width:92px"># Expiries</th>
+      <th style="width:92px">(a) Recharge</th><th style="width:56px">%</th>
+      <th style="width:92px">(b) Self PUT</th><th style="width:56px">%</th>
+      <th style="width:92px">(c) No action</th><th style="width:56px">%</th>
+      <th style="min-width:140px">Breakdown</th>
+    </tr></thead>
+    <tbody id="v1-tbody"></tbody>
+  </table></div>
   <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
     <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge</span>
     <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT</span>
@@ -152,74 +157,92 @@
   </div>
 </div>
 
-<!-- ══════ VIEW 2+3 ══════ -->
+<!-- ══ VIEW 2+3 ════════════════════════════════════════════════ -->
 <div class="view" id="v23">
   <div class="filter-bar">
     <div class="fg"><span class="fl">User type</span>
       <select id="v23-user" onchange="renderV23()">
-        <option value="All">All users</option>
-        <option value="PayG" selected>PayG</option>
-        <option value="NonPayG">NonPayG</option>
+        <option value="All">All users</option><option value="PayG" selected>PayG</option><option value="NonPayG">NonPayG</option>
       </select>
     </div>
     <div class="fsep"></div>
     <div class="fg"><span class="fl">Timeline</span>
       <select id="v23-time" onchange="renderV23()">
-        <option value="Weekly">Weekly</option>
-        <option value="Monthly" selected>Monthly</option>
+        <option value="Weekly">Weekly</option><option value="Monthly" selected>Monthly</option>
       </select>
     </div>
     <div class="fsep"></div>
     <div class="fg"><span class="fl">Ticket type</span>
       <select id="v23-type" onchange="renderV23()">
-        <option value="All" selected>All tickets</option>
-        <option value="Self">Self-created</option>
-        <option value="System">System-created</option>
+        <option value="All" selected>All tickets</option><option value="Self">Self-created</option><option value="System">System-created</option>
       </select>
     </div>
     <span id="v23-badge" class="abadge"></span>
   </div>
-
-  <div class="shdr" style="margin-top:0">
-    <h3>Status breakdown</h3><div class="sline"></div>
+  <div class="shdr" style="margin-top:0"><h3>Status breakdown</h3><div class="sline"></div>
     <span id="v23-s1badge" class="sbadge sb-teal">PayG</span>
     <span class="sbadge sb-blue">Self = ticket &lt;14d after expiry · System = auto at R15</span>
   </div>
-
-  <div class="tw">
-    <table>
+  <div class="tw"><table>
+    <thead><tr>
+      <th class="l" style="width:100px">Period</th><th style="width:82px">Total PUT</th>
+      <th style="width:68px">Open</th><th style="width:74px">→ Wiom</th><th style="width:78px">Resolved</th>
+      <th style="width:92px">Cust. recharge</th><th style="width:92px">Rtr. recovered</th><th style="width:78px">Unidentified</th>
+    </tr></thead>
+    <tbody id="v23-tbody1"></tbody>
+  </table></div>
+  <div id="v23-funnel">
+    <div class="shdr"><h3>PayG recovery funnel</h3><div class="sline"></div>
+      <span class="sbadge sb-teal">PayG only</span><span class="sbadge sb-amber">Router recovered → UPI added → Refund done</span>
+    </div>
+    <div class="tw"><table>
       <thead><tr>
         <th class="l" style="width:100px">Period</th>
-        <th style="width:82px">Total PUT</th>
-        <th style="width:68px">Open</th>
-        <th style="width:74px">→ Wiom</th>
-        <th style="width:78px">Resolved</th>
-        <th style="width:92px">Cust. recharge</th>
-        <th style="width:92px">Rtr. recovered</th>
-        <th style="width:78px">Unidentified</th>
+        <th style="width:130px">Router recovered</th><th style="width:130px">+ UPI added</th><th style="width:130px">+ Refund done</th>
+        <th style="min-width:110px">Funnel</th>
       </tr></thead>
-      <tbody id="v23-tbody1"></tbody>
+      <tbody id="v23-tbody2"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ══ COMPARISON VIEW ═════════════════════════════════════════ -->
+<div class="view" id="cmp">
+  <div class="filter-bar">
+    <div class="fg"><span class="fl">Timeline</span>
+      <select id="cmp-time" onchange="renderCmp()">
+        <option value="Weekly">Weekly</option><option value="Monthly" selected>Monthly</option>
+      </select>
+    </div>
+    <div class="fsep"></div>
+    <div class="fg"><span class="fl">Ticket type</span>
+      <select id="cmp-type" onchange="renderCmp()">
+        <option value="All" selected>All tickets</option><option value="Self">Self-created</option><option value="System">System-created</option>
+      </select>
+    </div>
+    <span style="font-size:11px;color:var(--text3);margin-left:8px;display:flex;align-items:center;gap:8px">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;border-radius:2px;background:var(--teal);display:inline-block"></span>PayG</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;border-radius:2px;background:var(--blue);display:inline-block"></span>NonPayG</span>
+    </span>
+  </div>
+
+  <div class="tw">
+    <table class="cmp-table">
+      <thead><tr>
+        <th class="metric-col l">Metric</th>
+        <th class="payg-col">PayG</th>
+        <th class="bar-col">Comparison</th>
+        <th class="nonpayg-col">NonPayG</th>
+        <th class="delta-col">Better</th>
+      </tr></thead>
+      <tbody id="cmp-tbody"></tbody>
     </table>
   </div>
 
-  <div id="v23-funnel">
-    <div class="shdr">
-      <h3>PayG recovery funnel</h3><div class="sline"></div>
-      <span class="sbadge sb-teal">PayG only</span>
-      <span class="sbadge sb-amber">Router recovered → UPI added → Refund done</span>
-    </div>
-    <div class="tw">
-      <table>
-        <thead><tr>
-          <th class="l" style="width:100px">Period</th>
-          <th style="width:130px">Router recovered</th>
-          <th style="width:130px">+ UPI added</th>
-          <th style="width:130px">+ Refund done</th>
-          <th style="min-width:110px">Funnel</th>
-        </tr></thead>
-        <tbody id="v23-tbody2"></tbody>
-      </table>
-    </div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:-16px;padding:0 4px">
+    <span style="font-size:11px;color:var(--text3)">Bar width = rate relative to 100% max scale · Bars meet at centre</span>
+    <span style="font-size:11px;display:flex;align-items:center;gap:5px;color:var(--teal)">▲ PayG = PayG performs better on this metric</span>
+    <span style="font-size:11px;display:flex;align-items:center;gap:5px;color:var(--blue)">▲ NonPayG = NonPayG performs better</span>
   </div>
 </div>
 
@@ -229,6 +252,7 @@
 </footer>
 
 <script>
+/* ═══════════════════════════ DATA ══════════════════════════════ */
 const V1=[
   {v:"Weekly",p:"2026-01-26",u:"NonPayG",e:38099,r:33187,s:1509,n:3403},
   {v:"Weekly",p:"2026-01-26",u:"PayG",e:170,r:149,s:7,n:14},
@@ -253,7 +277,6 @@ const V1=[
   {v:"Monthly",p:"2026-03",u:"NonPayG",e:74883,r:64259,s:2785,n:7839},
   {v:"Monthly",p:"2026-03",u:"PayG",e:2287,r:2104,s:46,n:137}
 ];
-
 const V23=[
   {k:"Self",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:351,op:0,sw:150,rs:201,cr:29,rr:171,ui:1,prr:0,pu:0,prf:0},
   {k:"Self",v:"Weekly",p:"2026-01-26",u:"PayG",t:4,op:0,sw:1,rs:3,cr:1,rr:2,ui:0,prr:2,pu:0,prf:0},
@@ -306,11 +329,12 @@ const V23=[
   {k:"System",v:"Monthly",p:"2026-03",u:"PayG",t:208,op:92,sw:22,rs:94,cr:65,rr:29,ui:0,prr:29,pu:7,prf:7}
 ];
 
-/* helpers */
+/* ═══════════════════════════ HELPERS ═══════════════════════════ */
 const fN=n=>n.toLocaleString('en-IN');
 const fK=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':String(n);
 const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
 const pctF=(a,b)=>b?(a/b*100).toFixed(1)+'%':'—';
+const pctN=(a,b)=>b?(a/b*100):0;
 
 function pl(p,v){
   if(v==='Monthly'){const[y,m]=p.split('-');return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+y;}
@@ -318,14 +342,14 @@ function pl(p,v){
 }
 function setBadge(el,u){
   const m={PayG:{bg:'rgba(45,212,191,.15)',c:'#2dd4bf',l:'PayG'},NonPayG:{bg:'rgba(96,165,250,.15)',c:'#60a5fa',l:'NonPayG'},All:{bg:'rgba(148,163,184,.12)',c:'#94a3b8',l:'All users'}};
-  const x=m[u]||m.All; el.textContent=x.l; el.style.background=x.bg; el.style.color=x.c;
+  const x=m[u]||m.All;el.textContent=x.l;el.style.background=x.bg;el.style.color=x.c;
 }
 function setTBadge(el,k){
   const m={Self:{bg:'rgba(96,165,250,.15)',c:'#60a5fa',l:'Self-created'},System:{bg:'rgba(251,191,36,.15)',c:'#fbbf24',l:'System-created'},All:{bg:'rgba(148,163,184,.12)',c:'#94a3b8',l:'All ticket types'}};
-  const x=m[k]||m.All; el.textContent=x.l; el.style.background=x.bg; el.style.color=x.c;
+  const x=m[k]||m.All;el.textContent=x.l;el.style.background=x.bg;el.style.color=x.c;
 }
 
-/* ── VIEW 1 ── */
+/* ═══════════════════════════ VIEW 1 ════════════════════════════ */
 function gV1(u,t){
   const rows=V1.filter(r=>r.v===t);
   const periods=[...new Set(rows.map(r=>r.p))].sort();
@@ -334,42 +358,21 @@ function gV1(u,t){
     return{period:p,e:s.reduce((a,x)=>a+x.e,0),r:s.reduce((a,x)=>a+x.r,0),s:s.reduce((a,x)=>a+x.s,0),n:s.reduce((a,x)=>a+x.n,0)};
   }).filter(d=>d.e>0);
 }
-
-function v1Row(d,label,isTotal){
-  const rp=d.e?+(d.r/d.e*100).toFixed(1):0;
-  const sp=d.e?+(d.s/d.e*100).toFixed(1):0;
-  const np=d.e?+(d.n/d.e*100).toFixed(1):0;
-  const cls=isTotal?' class="tr"':'';
-  return `<tr${cls}>
-    <td class="l">${label}</td>
-    <td>${fN(d.e)}</td>
-    <td class="c-teal">${fN(d.r)}</td>
-    <td><span style="color:#2dd4bf">${rp}%</span></td>
-    <td class="c-amber">${fN(d.s)}</td>
-    <td><span style="color:#fbbf24">${sp}%</span></td>
-    <td class="c-coral">${fN(d.n)}</td>
-    <td><span style="color:#fb7185">${np}%</span></td>
-    <td><div class="bs-wrap"><div class="bs" style="width:${rp}%;background:#2dd4bf"></div><div class="bs" style="width:${sp}%;background:#fbbf24"></div><div class="bs" style="width:${np}%;background:#fb7185"></div></div></td>
-  </tr>`;
+function v1Row(d,label,isTot){
+  const rp=d.e?+(d.r/d.e*100).toFixed(1):0,sp=d.e?+(d.s/d.e*100).toFixed(1):0,np=d.e?+(d.n/d.e*100).toFixed(1):0;
+  return`<tr${isTot?' class="tr"':''}><td class="l">${label}</td><td>${fN(d.e)}</td><td class="c-teal">${fN(d.r)}</td><td><span style="color:#2dd4bf">${rp}%</span></td><td class="c-amber">${fN(d.s)}</td><td><span style="color:#fbbf24">${sp}%</span></td><td class="c-coral">${fN(d.n)}</td><td><span style="color:#fb7185">${np}%</span></td><td><div class="bs-wrap"><div class="bs" style="width:${rp}%;background:#2dd4bf"></div><div class="bs" style="width:${sp}%;background:#fbbf24"></div><div class="bs" style="width:${np}%;background:#fb7185"></div></div></td></tr>`;
 }
-
 function renderV1(){
-  const u=document.getElementById('v1-user').value;
-  const t=document.getElementById('v1-time').value;
-  const data=gV1(u,t);
+  const u=document.getElementById('v1-user').value,t=document.getElementById('v1-time').value,data=gV1(u,t);
   setBadge(document.getElementById('v1-badge'),u);
   const tE=data.reduce((a,x)=>a+x.e,0),tR=data.reduce((a,x)=>a+x.r,0),tS=data.reduce((a,x)=>a+x.s,0),tN=data.reduce((a,x)=>a+x.n,0);
-  document.getElementById('v1-kpis').innerHTML=`
-    <div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div>
-    <div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div>
-    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15</div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div>
-    <div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
+  document.getElementById('v1-kpis').innerHTML=`<div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div><div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div><div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15</div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div><div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
   const rows=data.map(d=>v1Row(d,pl(d.period,t),false));
   rows.push(v1Row({e:tE,r:tR,s:tS,n:tN},'TOTAL',true));
-  document.getElementById('v1-tbody').innerHTML=rows.length>1?rows.join(''):`<tr class="er"><td colspan="9">No data for selected filters</td></tr>`;
+  document.getElementById('v1-tbody').innerHTML=rows.length>1?rows.join(''):`<tr class="er"><td colspan="9">No data</td></tr>`;
 }
 
-/* ── VIEW 2+3 ── */
+/* ═══════════════════════════ VIEW 2+3 ══════════════════════════ */
 function gV23(u,t,k){
   let rows=V23.filter(r=>r.v===t);
   if(k!=='All') rows=rows.filter(r=>r.k===k);
@@ -377,63 +380,137 @@ function gV23(u,t,k){
   return periods.map(p=>{
     const s=u==='All'?rows.filter(r=>r.p===p):rows.filter(r=>r.p===p&&r.u===u);
     const pg=rows.filter(r=>r.p===p&&r.u==='PayG');
-    return{period:p,
-      t:s.reduce((a,x)=>a+x.t,0),op:s.reduce((a,x)=>a+x.op,0),sw:s.reduce((a,x)=>a+x.sw,0),rs:s.reduce((a,x)=>a+x.rs,0),cr:s.reduce((a,x)=>a+x.cr,0),rr:s.reduce((a,x)=>a+x.rr,0),ui:s.reduce((a,x)=>a+x.ui,0),
-      prr:pg.reduce((a,x)=>a+x.prr,0),pu:pg.reduce((a,x)=>a+x.pu,0),prf:pg.reduce((a,x)=>a+x.prf,0)};
+    return{period:p,t:s.reduce((a,x)=>a+x.t,0),op:s.reduce((a,x)=>a+x.op,0),sw:s.reduce((a,x)=>a+x.sw,0),rs:s.reduce((a,x)=>a+x.rs,0),cr:s.reduce((a,x)=>a+x.cr,0),rr:s.reduce((a,x)=>a+x.rr,0),ui:s.reduce((a,x)=>a+x.ui,0),prr:pg.reduce((a,x)=>a+x.prr,0),pu:pg.reduce((a,x)=>a+x.pu,0),prf:pg.reduce((a,x)=>a+x.prf,0)};
   }).filter(d=>d.t>0);
 }
-
 function s1Row(d,label,isTot){
-  const cls=isTot?' class="tr"':'';
-  return`<tr${cls}>
-    <td class="l">${label}</td>
-    <td>${fN(d.t)}</td>
-    <td class="c-coral">${fN(d.op)}<div class="td-sub">${pct(d.op,d.t)}</div></td>
-    <td class="c-amber">${fN(d.sw)}<div class="td-sub">${pct(d.sw,d.t)}</div></td>
-    <td class="c-green">${fN(d.rs)}<div class="td-sub">${pct(d.rs,d.t)}</div></td>
-    <td>${fN(d.cr)}<div class="td-sub">${pct(d.cr,d.rs)} of res.</div></td>
-    <td>${fN(d.rr)}<div class="td-sub">${pct(d.rr,d.rs)} of res.</div></td>
-    <td class="c-slate">${fN(d.ui)}<div class="td-sub">${pct(d.ui,d.rs)} of res.</div></td>
-  </tr>`;
+  return`<tr${isTot?' class="tr"':''}><td class="l">${label}</td><td>${fN(d.t)}</td><td class="c-coral">${fN(d.op)}<div class="td-sub">${pct(d.op,d.t)}</div></td><td class="c-amber">${fN(d.sw)}<div class="td-sub">${pct(d.sw,d.t)}</div></td><td class="c-green">${fN(d.rs)}<div class="td-sub">${pct(d.rs,d.t)}</div></td><td>${fN(d.cr)}<div class="td-sub">${pct(d.cr,d.rs)} of res.</div></td><td>${fN(d.rr)}<div class="td-sub">${pct(d.rr,d.rs)} of res.</div></td><td class="c-slate">${fN(d.ui)}<div class="td-sub">${pct(d.ui,d.rs)} of res.</div></td></tr>`;
 }
-
 function s2Row(d,label,isTot){
-  const w1=d.prr?+(d.pu/d.prr*100).toFixed(0):0;
-  const w2=d.pu?+(d.prf/d.pu*100).toFixed(0):0;
-  const cls=isTot?' class="tr"':'';
-  return`<tr${cls}>
-    <td class="l">${label}</td>
-    <td class="c-blue">${fN(d.prr)}</td>
-    <td class="c-amber">${fN(d.pu)}<div class="td-sub">${pct(d.pu,d.prr)} of rcvrd</div></td>
-    <td class="c-teal">${fN(d.prf)}<div class="td-sub">${pct(d.prf,d.pu)} of UPI</div></td>
-    <td><div class="fw"><div class="fb"><div class="ff" style="width:${w1}%;background:#fbbf24"></div></div><div class="fb"><div class="ff" style="width:${w2}%;background:#2dd4bf"></div></div></div>
-    <div style="display:flex;gap:8px;margin-top:3px"><span style="font-size:10px;color:var(--text3)">${w1}% UPI</span><span style="font-size:10px;color:var(--text3)">${w2}% refund</span></div></td>
-  </tr>`;
+  const w1=d.prr?+(d.pu/d.prr*100).toFixed(0):0,w2=d.pu?+(d.prf/d.pu*100).toFixed(0):0;
+  return`<tr${isTot?' class="tr"':''}><td class="l">${label}</td><td class="c-blue">${fN(d.prr)}</td><td class="c-amber">${fN(d.pu)}<div class="td-sub">${pct(d.pu,d.prr)} of rcvrd</div></td><td class="c-teal">${fN(d.prf)}<div class="td-sub">${pct(d.prf,d.pu)} of UPI</div></td><td><div class="fw"><div class="fb"><div class="ff" style="width:${w1}%;background:#fbbf24"></div></div><div class="fb"><div class="ff" style="width:${w2}%;background:#2dd4bf"></div></div></div><div style="display:flex;gap:8px;margin-top:3px"><span style="font-size:10px;color:var(--text3)">${w1}% UPI</span><span style="font-size:10px;color:var(--text3)">${w2}% refund</span></div></td></tr>`;
 }
-
 function renderV23(){
-  const u=document.getElementById('v23-user').value;
-  const t=document.getElementById('v23-time').value;
-  const k=document.getElementById('v23-type').value;
-  const data=gV23(u,t,k);
+  const u=document.getElementById('v23-user').value,t=document.getElementById('v23-time').value,k=document.getElementById('v23-type').value,data=gV23(u,t,k);
   setTBadge(document.getElementById('v23-badge'),k);
   setBadge(document.getElementById('v23-s1badge'),u);
-
   const tT=data.reduce((a,x)=>a+x.t,0),tOp=data.reduce((a,x)=>a+x.op,0),tSw=data.reduce((a,x)=>a+x.sw,0),tRs=data.reduce((a,x)=>a+x.rs,0),tCr=data.reduce((a,x)=>a+x.cr,0),tRr=data.reduce((a,x)=>a+x.rr,0),tUi=data.reduce((a,x)=>a+x.ui,0);
-  const r1=data.map(d=>s1Row(d,pl(d.period,t),false));
-  r1.push(s1Row({t:tT,op:tOp,sw:tSw,rs:tRs,cr:tCr,rr:tRr,ui:tUi},'TOTAL',true));
+  const r1=data.map(d=>s1Row(d,pl(d.period,t),false));r1.push(s1Row({t:tT,op:tOp,sw:tSw,rs:tRs,cr:tCr,rr:tRr,ui:tUi},'TOTAL',true));
   document.getElementById('v23-tbody1').innerHTML=r1.length>1?r1.join(''):`<tr class="er"><td colspan="8">No data</td></tr>`;
-
   const showF=u==='PayG'||u==='All';
   document.getElementById('v23-funnel').style.display=showF?'block':'none';
   if(showF){
     const tPrr=data.reduce((a,x)=>a+x.prr,0),tPu=data.reduce((a,x)=>a+x.pu,0),tPrf=data.reduce((a,x)=>a+x.prf,0);
-    const r2=data.map(d=>s2Row(d,pl(d.period,t),false));
-    r2.push(s2Row({prr:tPrr,pu:tPu,prf:tPrf},'TOTAL',true));
+    const r2=data.map(d=>s2Row(d,pl(d.period,t),false));r2.push(s2Row({prr:tPrr,pu:tPu,prf:tPrf},'TOTAL',true));
     document.getElementById('v23-tbody2').innerHTML=r2.length>1?r2.join(''):`<tr class="er"><td colspan="5">No PayG data</td></tr>`;
   }
 }
 
+/* ═══════════════════════════ COMPARISON VIEW ═══════════════════ */
+function sumV1(u,t){
+  const rows=V1.filter(r=>r.v===t&&r.u===u);
+  return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};
+}
+function sumV23(u,t,k){
+  let rows=V23.filter(r=>r.v===t&&r.u===u);
+  if(k!=='All') rows=rows.filter(r=>r.k===k);
+  return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};
+}
+
+/* Build one comparison row
+   winner: 'payg' | 'nonpayg' | 'neutral'
+   higherIsBetter: true = higher% is better, false = lower% is better */
+function cmpRow(label, sub, pgVal, pgPct, npgVal, npgPct, higherIsBetter, isSubMetric){
+  const pgP=pgPct??0, npP=npgPct??0;
+  const scale=Math.max(pgP,npP,1);
+  const pgW=Math.round(pgP/scale*72), npW=Math.round(npP/scale*72);
+  const diff=pgP-npP;
+  const winner = Math.abs(diff)<0.5 ? 'neutral' : (higherIsBetter ? (diff>0?'payg':'nonpayg') : (diff<0?'payg':'nonpayg'));
+  const deltaLabel = winner==='neutral' ? '≈ Equal' : (winner==='payg'?'▲ PayG':'▲ NonPayG');
+  const deltaCls = winner==='neutral'?'delta-neutral':winner==='payg'?'delta-payg':'delta-nonpayg';
+  const ppDiff = Math.abs(diff)>=0.5 ? ` ${Math.abs(diff).toFixed(1)}pp` : '';
+  const rowCls = isSubMetric ? ' class="sub-metric"' : '';
+  return `<tr${rowCls}>
+    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
+    <td class="val-cell" style="text-align:right">
+      <div class="val-main c-teal">${pgVal!==null?fN(pgVal):'—'}</div>
+      ${pgPct!==null?`<div class="val-pct">${pgPct.toFixed(1)}%</div>`:''}
+    </td>
+    <td>
+      <div class="dual-bar">
+        <div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div>
+        <div class="bar-center-tick"></div>
+        <div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div>
+      </div>
+    </td>
+    <td class="val-cell" style="text-align:right">
+      <div class="val-main c-blue">${npgVal!==null?fN(npgVal):'—'}</div>
+      ${npgPct!==null?`<div class="val-pct">${npgPct.toFixed(1)}%</div>`:''}
+    </td>
+    <td style="text-align:center"><span class="delta ${deltaCls}">${deltaLabel}${ppDiff}</span></td>
+  </tr>`;
+}
+
+function groupRow(label){
+  return`<tr class="group-row"><td colspan="5"><span class="group-label">${label}</span></td></tr>`;
+}
+
+function volRow(label, sub, pgV, npgV){
+  // Volume row — no percentage, no winner
+  return`<tr>
+    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
+    <td class="val-cell" style="text-align:right"><div class="val-main c-teal">${fN(pgV)}</div></td>
+    <td><div style="text-align:center;font-size:11px;color:var(--text3)">volume</div></td>
+    <td class="val-cell" style="text-align:right"><div class="val-main c-blue">${fN(npgV)}</div></td>
+    <td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td>
+  </tr>`;
+}
+
+function renderCmp(){
+  const t=document.getElementById('cmp-time').value;
+  const k=document.getElementById('cmp-type').value;
+
+  const pg1=sumV1('PayG',t), npg1=sumV1('NonPayG',t);
+  const pgP=sumV23('PayG',t,k), npgP=sumV23('NonPayG',t,k);
+
+  // PayG funnel — always all-ticket-type split for self vs system comparison
+  const pgSelf=sumV23('PayG',t,'Self'), pgSys=sumV23('PayG',t,'System');
+
+  const rows=[];
+
+  // ── SECTION 1: PLAN EXPIRY ─────────────────────────────────────
+  rows.push(groupRow('Plan Expiry Funnel — R0–15 window (R15-matured expiries only)'));
+  rows.push(volRow('Total plan expiries','All expiries where R15 has elapsed',pg1.e,npg1.e));
+  rows.push(cmpRow('(a) Recharge R0–15','Customer bought next plan within 15 days of expiry',pg1.r,pctN(pg1.r,pg1.e),npg1.r,pctN(npg1.r,npg1.e),true,false));
+  rows.push(cmpRow('(b) Self PUT R0–15','ROUTER_PICKUP ticket created within 15 days of expiry (no recharge)',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),false,false));
+  rows.push(cmpRow('(c) No action R0–15','Neither recharged nor PUT ticket within R0–15',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
+
+  // ── SECTION 2: TICKET STATUS ───────────────────────────────────
+  const ticketTypeLabel = k==='Self'?'Self-Created':k==='System'?'System-Created':'All';
+  rows.push(groupRow(`Pickup Tickets — Status Breakdown (${ticketTypeLabel})`));
+  rows.push(volRow('Total PUT tickets','ROUTER_PICKUP tasks from Jan 26, 2026',pgP.t,npgP.t));
+  rows.push(cmpRow('Open rate','Tickets with status 0 or 1 (unresolved)',pgP.op,pctN(pgP.op,pgP.t),npgP.op,pctN(npgP.op,npgP.t),false,false));
+  rows.push(cmpRow('Send to Wiom rate','Tickets escalated (status 3)',pgP.sw,pctN(pgP.sw,pgP.t),npgP.sw,pctN(npgP.sw,npgP.t),false,false));
+  rows.push(cmpRow('Resolution rate','Tickets closed as resolved (status 2)',pgP.rs,pctN(pgP.rs,pgP.t),npgP.rs,pctN(npgP.rs,npgP.t),true,false));
+  rows.push(cmpRow('→ Customer recharge','% of resolved where customer recharged',pgP.cr,pctN(pgP.cr,pgP.rs),npgP.cr,pctN(npgP.cr,npgP.rs),null,true));
+  rows.push(cmpRow('→ Router recovered','% of resolved where router was physically picked up',pgP.rr,pctN(pgP.rr,pgP.rs),npgP.rr,pctN(npgP.rr,npgP.rs),null,true));
+  rows.push(cmpRow('→ Unidentified','% of resolved with no recovery type and no payment',pgP.ui,pctN(pgP.ui,pgP.rs),npgP.ui,pctN(npgP.ui,npgP.rs),false,true));
+
+  // ── SECTION 3: PAYG RECOVERY FUNNEL ───────────────────────────
+  rows.push(groupRow('PayG Recovery Funnel — Self-Created Tickets'));
+  rows.push(volRow('Router recovered (self PUT)','Resolved with ROUTER_RECOVERED',pgSelf.prr,0));
+  rows.push(cmpRow('UPI added','% of recovered where customer added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr),null,null,true,false));
+  rows.push(cmpRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu),null,null,true,false));
+
+  rows.push(groupRow('PayG Recovery Funnel — System-Created Tickets'));
+  rows.push(volRow('Router recovered (system PUT)','Resolved with ROUTER_RECOVERED',pgSys.prr,0));
+  rows.push(cmpRow('UPI added','% of recovered where customer added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr),null,null,true,false));
+  rows.push(cmpRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu),null,null,true,false));
+
+  document.getElementById('cmp-tbody').innerHTML=rows.join('');
+}
+
+/* ═══════════════════════════ TAB SWITCH ════════════════════════ */
 function switchTab(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -441,8 +518,8 @@ function switchTab(id,btn){
   btn.classList.add('active');
 }
 
-renderV1();
-renderV23();
+/* ═══════════════════════════ INIT ══════════════════════════════ */
+renderV1(); renderV23(); renderCmp();
 </script>
 </body>
 </html>
