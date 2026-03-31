@@ -123,12 +123,12 @@
     <span class="fix-icon">⚑</span>
     <div class="fix-text">
       <strong>Classification rule (all views):</strong>
-      Ticket created &lt; 20,160 min (14 days) after plan expiry = <strong>Customer-created (Self)</strong>.
-      Ticket created ≥ 20,160 min = <strong>System-generated</strong> — this includes day 14–15 "periphery" tickets that fall inside the R0–15 window.
-      Rule applied identically for PayG and NonPayG across all three views.
+      Ticket created &lt; 20,160 min (14 days) after plan expiry = <strong>Self-created</strong>.
+      Ticket created ≥ 20,160 min = <strong>System-generated</strong> — includes day 14–15 periphery tickets. Rule applied identically to PayG and NonPayG.
       <br>
-      Impact: NonPayG Self PUT dropped from ~3.7% → ~0.3%; PayG from ~1.9% → ~1.0–1.3%.
-      Genuine self-creation rate (% of non-recharged): <strong style="color:var(--teal)">PayG ~10–13%</strong> vs <strong style="color:var(--blue)">NonPayG ~2–3%</strong>.
+      <strong>Important note on NonPayG Self PUT:</strong> The in-app self-creation feature was only available to PayG customers. NonPayG customers had no app access and could only request a pickup by calling customer care. As a result, <strong style="color:var(--blue)">all NonPayG Self PUT tickets are CX-assisted</strong> — 9% created via Kapture CRM, 91% created by CX agents directly (customer name appears as ticket title). This is kept as-is by design; it represents customer intent (customer called to initiate pickup) even if the ticket was raised by an agent.
+      <br>
+      For PayG, ~81% of Self PUT tickets are app-created (null source) and ~19% are CX-assisted (Kapture).
     </div>
   </div>
 
@@ -181,9 +181,10 @@
     <span class="fix-icon">⚑</span>
     <div class="fix-text">
       <strong>Classification rule:</strong>
-      <strong>Self-created</strong> = ticket created &lt; 20,160 min (14 days) after plan expiry — customer-initiated via app or customer care.
-      <strong>System-created</strong> = ticket created ≥ 20,160 min after expiry — auto-generated at R15, including day 14–15 periphery tickets.
-      Applies equally to PayG and NonPayG.
+      <strong>Self-created</strong> = ticket created &lt; 20,160 min (14 days) after plan expiry.
+      <strong>System-created</strong> = ticket created ≥ 20,160 min — auto-generated at R15, including day 14–15 periphery tickets. Same rule for both cohorts.
+      <br>
+      <strong>NonPayG Self PUT = CX-assisted:</strong> App self-creation was PayG-only. NonPayG tickets within 14 days were raised by CX agents on behalf of customers who called in (9% via Kapture CRM, 91% direct agent creation). Kept as-is — represents customer-initiated intent.
     </div>
   </div>
 
