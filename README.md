@@ -89,6 +89,42 @@ Only include plan expiries whose 15-day observation window has fully elapsed:
 DATEADD(day, 15, expiry_date) <= CAST(DATEADD(minute, 330, CURRENT_TIMESTAMP()) AS DATE)
 ```
 
+### "Payment captured" — what it means in resolved tickets
+
+In the resolution logic for View 2+3, `payment_mode IS NOT NULL` is used to infer customer recharge when `recovery_type IS NULL`. This comes from:
+
+```sql
+SELECT mobile,
+       DATEADD(minute, 330, added_time) AS recharged_time,
+       PARSE_JSON(data):paymentMode::STRING AS payment_mode
+FROM CUSTOMER_LOGS
+WHERE event_name = 'renewal_fee_captured'
+```
+
+`renewal_fee_captured` is an unambiguous plan-payment event. The raw payload contains `amount`, `paid_amount`, `paymentMode` (online/cash/autopay), `device_id`, and `offering` (plan purchased). It is not a generic payment — it is specifically a plan recharge.
+
+**Safe assumption confirmed:** `recovery_type IS NULL AND payment_mode IS NOT NULL` → customer recharged their plan. This matches the convention used across all existing Metabase cards (10368, 10374, 10387).
+
+**Known limitation:** The join uses `mobile` only (not `device_id`), so if a customer has multiple devices, a payment for device B could be attributed to a ticket for device A. For PayG (small, newer cohort, typically one device per account) this is not a meaningful risk.
+
+---
+
+### Ticket SOURCE field — who created the ticket
+
+The `SOURCE` column in `PROD_DB.DYNAMODB_READ.TASKS` reveals the creation channel:
+
+| SOURCE value | Meaning |
+|---|---|
+| `'KAPTURE'` | CX agent raised via Kapture CRM (explicit CX origin) |
+| `null` + customer name as TITLE | CX agent raised directly without CRM (agent typed customer name) |
+| `null` + no recognisable title | System auto-generated or app-created (app does not log a source) |
+
+**Practical implication for Self PUT classification:**
+- For **NonPayG**, all Self PUT tickets (<14d) are CX-created — the app pickup request was unavailable to NonPayG customers
+- For **PayG**, ~81% of null-source Self PUT tickets are app-created (the app does not set a SOURCE field), ~19% are Kapture CX-assisted
+
+---
+
 ### Self-Created vs System-Created Pickup Tickets
 Derived from card `10705` (`Pickup_Tickets_For_Calling`):
 ```sql
@@ -480,11 +516,13 @@ END) AS has_put_in_window
 | Customer-created (Day 0–13) | 1,944 (14.6%) | 107 (71.8%) |
 | System / periphery (Day 14–15) | 11,391 (85.4%) | 42 (28.2%) |
 
+**Bimodal distribution verified:** A time-bucketed query confirmed the spike is not gradual — customer-created tickets for PayG decay smoothly from Day 0 (46 tickets) through Day 13 (2 tickets), then a sharp cluster of 42 tickets appears at Day 14–15. This confirms these are system-triggered, not organic customer behaviour.
+
 **Fix:** Filter to only `generated_by = 'Customer'` (i.e., `mins_after_expiry < 20160`) for the Self PUT bucket. Applied identically to both cohorts.
 
 **Corrected Self PUT rates (as % of non-recharged):**
-- PayG: **~10–13%** (genuine in-app creation)
-- NonPayG: **~2–3%** (customer-care raised tickets only)
+- PayG: **~10–13%** (genuine in-app creation or CX-assisted)
+- NonPayG: **~2–3%** (CX-assisted only — app not available for NonPayG)
 
 This ~5–6× difference correctly reflects that the in-app self-creation feature was PayG-exclusive.
 
@@ -505,6 +543,57 @@ This ~5–6× difference correctly reflects that the in-app self-creation featur
 **Root cause:** Initial query used `idmaker(shard, 0, router_nas_id)` copied from existing cards (e.g., 9882). The `shard` column exists in some contexts but was not accessible in a plain `SELECT` from `T_ROUTER_USER_MAPPING`.
 
 **Fix:** Use `router_nas_id` directly as the NAS identifier throughout. For joining with the TASKS table (which stores NAS ID as `PARSE_JSON(extra_data):nas_id::NUMBER`), join on `e.nas_id = pt.nas_id` directly.
+
+---
+
+### Finding — NonPayG Self PUT tickets are 100% CX-created (SOURCE field analysis)
+
+**Question:** Are the NonPayG "Self PUT" tickets (<14d) actually customer self-initiated, or are they raised by CX agents on behalf of customers?
+
+**Why it matters:** The in-app pickup request feature was PayG-only. NonPayG customers had no self-service option and had to call customer care to request a pickup. If CX agents raised those tickets, counting them as "Self PUT" could be misleading.
+
+**Method:** Queried the `SOURCE` field in `PROD_DB.DYNAMODB_READ.TASKS` alongside the `TITLE` field for NonPayG tickets within 14 days of expiry.
+
+**Results:**
+
+| Cohort | Time bucket | Source | Tickets | % | Who created it |
+|---|---|---|---|---|---|
+| NonPayG | Self (<14d) | `null` | 1,773 | 91% | CX agent (customer name appears as TITLE) |
+| NonPayG | Self (<14d) | `KAPTURE` | 173 | 9% | CX agent via Kapture CRM |
+| NonPayG | System (≥14d) | `null` | 32,758 | 78% | System auto-generated |
+| NonPayG | System (≥14d) | `KAPTURE` | 9,247 | 22% | CX agent via Kapture CRM |
+| PayG | Self (<14d) | `null` | 87 | 81% | Customer via app (no source logged for app) |
+| PayG | Self (<14d) | `KAPTURE` | 21 | 19% | CX agent via Kapture CRM |
+| PayG | System (≥14d) | `null` | 181 | 66% | System auto-generated |
+| PayG | System (≥14d) | `KAPTURE` | 92 | 34% | CX agent via Kapture CRM |
+
+**Key signals:**
+- `SOURCE = 'KAPTURE'` → explicitly CX agent raised via the Kapture CRM tool
+- `SOURCE = null` + TITLE is a person's name (Ajay, Rahul, Sunil...) → CX agent created directly without Kapture; agent entered customer name as ticket title
+- `SOURCE = null` for PayG Self PUT → customer app-created (app does not log a source field)
+
+**Conclusion:**
+- **NonPayG Self PUT: 100% CX-mediated.** All 1,946 tickets were raised by CX agents on behalf of customers who called in.
+- **PayG Self PUT: ~81% genuine app self-creation, ~19% CX-assisted** (some PayG customers also called CX).
+
+**Decision:** Self PUT bucket kept as-is for both cohorts. NonPayG Self PUT represents "customer-initiated intent" (customer called CX to request pickup), even though the ticket was agent-raised. Both the dashboard notes and README are updated to make this distinction explicit.
+
+**Query used:**
+```sql
+SELECT
+    t.TITLE,
+    t.SOURCE,
+    PARSE_JSON(t.extra_data):isCustomerRaised::STRING AS is_customer_raised,
+    COUNT(*) AS tickets
+FROM PROD_DB.DYNAMODB_READ.TASKS t
+-- join to last_plan and first_install for user_type and mins_after_expiry
+WHERE t.TYPE='ROUTER_PICKUP'
+  AND DATEADD(minute,330,t.created) >= '2026-01-26'
+  AND user_type = 'NonPayG'
+  AND mins_after_expiry BETWEEN 0 AND 20159
+  AND t.SOURCE IS NULL
+GROUP BY 1,2,3 ORDER BY tickets DESC
+```
 
 ---
 

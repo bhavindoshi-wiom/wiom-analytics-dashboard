@@ -122,13 +122,16 @@
   <div class="fix-note">
     <span class="fix-icon">⚑</span>
     <div class="fix-text">
-      <strong>Classification rule (all views):</strong>
-      Ticket created &lt; 20,160 min (14 days) after plan expiry = <strong>Self-created</strong>.
-      Ticket created ≥ 20,160 min = <strong>System-generated</strong> — includes day 14–15 periphery tickets. Rule applied identically to PayG and NonPayG.
+      <strong>Classification rule (all views):</strong> Ticket created &lt; 20,160 min (14 days) after expiry = <strong>Self-created</strong>. Ticket ≥ 20,160 min = <strong>System-generated</strong> (incl. day 14–15 periphery). Applied identically to PayG and NonPayG.
+      <br><br>
+      <strong style="color:var(--blue)">NonPayG Self PUT = CX-assisted, not app self-created.</strong>
+      The in-app pickup request feature was <strong>PayG-only</strong>. NonPayG customers could not raise a ticket themselves — they had to call customer care. Verified via the <code>SOURCE</code> field in the TASKS table:
+      &nbsp;&nbsp;· 9% of NonPayG Self PUT tickets have <code>SOURCE = 'KAPTURE'</code> (Kapture CRM — CX agent-raised)
+      &nbsp;&nbsp;· 91% have <code>SOURCE = null</code> with a customer name as the TITLE — CX agent direct creation
+      &nbsp;&nbsp;· <strong>100% of NonPayG Self PUT tickets are CX-mediated</strong>
       <br>
-      <strong>Important note on NonPayG Self PUT:</strong> The in-app self-creation feature was only available to PayG customers. NonPayG customers had no app access and could only request a pickup by calling customer care. As a result, <strong style="color:var(--blue)">all NonPayG Self PUT tickets are CX-assisted</strong> — 9% created via Kapture CRM, 91% created by CX agents directly (customer name appears as ticket title). This is kept as-is by design; it represents customer intent (customer called to initiate pickup) even if the ticket was raised by an agent.
-      <br>
-      For PayG, ~81% of Self PUT tickets are app-created (null source) and ~19% are CX-assisted (Kapture).
+      For <strong style="color:var(--teal)">PayG</strong>: ~81% of Self PUT are null-source app-created, ~19% are CX-assisted via Kapture.
+      The Self PUT bucket is kept as-is — it represents customer-initiated intent (customer called to request pickup) even when CX raised the ticket.
     </div>
   </div>
 
@@ -181,10 +184,12 @@
     <span class="fix-icon">⚑</span>
     <div class="fix-text">
       <strong>Classification rule:</strong>
-      <strong>Self-created</strong> = ticket created &lt; 20,160 min (14 days) after plan expiry.
-      <strong>System-created</strong> = ticket created ≥ 20,160 min — auto-generated at R15, including day 14–15 periphery tickets. Same rule for both cohorts.
+      <strong>Self-created</strong> = ticket &lt; 20,160 min (14 days) after expiry.
+      <strong>System-created</strong> = ticket ≥ 20,160 min — auto-triggered at R15, incl. day 14–15 periphery. Same threshold for both cohorts.
       <br>
-      <strong>NonPayG Self PUT = CX-assisted:</strong> App self-creation was PayG-only. NonPayG tickets within 14 days were raised by CX agents on behalf of customers who called in (9% via Kapture CRM, 91% direct agent creation). Kept as-is — represents customer-initiated intent.
+      <strong style="color:var(--blue)">NonPayG Self PUT = 100% CX-assisted</strong> (app pickup request was PayG-only).
+      Source verified: 9% via <code>KAPTURE</code> CRM, 91% direct CX agent creation (customer name as ticket title).
+      <strong style="color:var(--teal)">PayG Self PUT</strong>: ~81% app-created, ~19% CX-assisted via Kapture.
     </div>
   </div>
 
