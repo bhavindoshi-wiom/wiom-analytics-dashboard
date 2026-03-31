@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wiom Analytics Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root{--bg:#0d1117;--bg2:#161b22;--bg3:#1c2330;--bg4:#21293a;--bg-total:#1a2535;--border:#2a3545;--border2:#334155;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--teal:#2dd4bf;--teal2:#0d9488;--teal-dim:rgba(45,212,191,.12);--blue:#60a5fa;--blue-dim:rgba(96,165,250,.12);--amber:#fbbf24;--amber-dim:rgba(251,191,36,.12);--coral:#fb7185;--coral-dim:rgba(251,113,133,.12);--green:#4ade80;--slate:#94a3b8;--font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;--r:6px;--r2:10px}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
+  /* HEADER */
+  .hdr{border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;background:var(--bg)}
+  .hdr-l{display:flex;align-items:center;gap:14px}
+  .logo{width:28px;height:28px;border-radius:6px;background:var(--teal2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:500;color:#fff;flex-shrink:0}
+  .hdr-title{font-size:14px;font-weight:600}
+  .hdr-dot{color:var(--border2)}
+  .hdr-sub{font-size:12px;color:var(--text3)}
+  .hdr-r{display:flex;align-items:center;gap:10px}
+  .data-tag{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);font-family:var(--mono)}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  /* TABS */
+  .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 32px;background:var(--bg);position:sticky;top:56px;z-index:99}
+  .tab{padding:12px 20px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap}
+  .tab:hover{color:var(--text2)}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+  .tab-num{font-size:10px;padding:1px 6px;border-radius:10px;background:var(--bg3);color:var(--text3);margin-left:6px;font-family:var(--mono)}
+  /* VIEWS */
+  .view{display:none;padding:28px 32px 48px}.view.active{display:block}
+  /* FILTERS */
+  .filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+  .fg{display:flex;align-items:center;gap:6px}
+  .fl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+  select{font-family:var(--font);font-size:12px;padding:5px 24px 5px 10px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg3);color:var(--text);cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748b'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;transition:border-color .15s}
+  select:hover{border-color:var(--text3)}select:focus{border-color:var(--teal)}
+  .fsep{width:1px;height:18px;background:var(--border);margin:0 4px}
+  .abadge{font-size:11px;padding:3px 10px;border-radius:20px;font-family:var(--mono);font-weight:500;margin-left:4px}
+  /* SECTION */
+  .shdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;margin-top:28px}
+  .shdr:first-of-type{margin-top:0}
+  .shdr h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
+  .sline{flex:1;height:1px;background:var(--border)}
+  .sbadge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+  .sb-teal{background:var(--teal-dim);color:var(--teal)}.sb-blue{background:var(--blue-dim);color:var(--blue)}.sb-amber{background:var(--amber-dim);color:var(--amber)}
+  /* KPIs */
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
+  .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;transition:border-color .15s}
+  .kpi:hover{border-color:var(--border2)}
+  .kpi-lbl{font-size:11px;color:var(--text3);margin-bottom:8px;letter-spacing:.02em}
+  .kpi-val{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--text);line-height:1}
+  .kpi-sub{font-size:11px;color:var(--text3);margin-top:5px}
+  .kpi-sub.teal{color:var(--teal2)}.kpi-sub.amber{color:var(--amber)}.kpi-sub.coral{color:var(--coral)}.kpi-sub.blue{color:var(--blue)}
+  /* TABLE */
+  .tw{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--border);margin-bottom:28px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  thead{background:var(--bg3)}
+  th{padding:9px 12px;text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap}
+  th.l{text-align:left}
+  td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--text)}
+  td.l{text-align:left;font-family:var(--font);font-weight:500;font-size:12px;white-space:nowrap;color:var(--text)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:not(.tr):hover td{background:var(--bg3)}
+  /* TOTAL ROW */
+  .tr td{background:var(--bg-total)!important;border-top:1px solid var(--border2)!important;border-bottom:none!important;font-weight:500}
+  .tr td.l{color:var(--teal);font-family:var(--mono);font-size:11px;letter-spacing:.05em}
+  .td-sub{font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--font)}
+  /* colours */
+  .c-teal{color:var(--teal)}.c-blue{color:var(--blue)}.c-amber{color:var(--amber)}.c-coral{color:var(--coral)}.c-green{color:var(--green)}.c-slate{color:var(--slate)}
+  /* bars */
+  .bs-wrap{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--bg4);gap:1px;width:120px}
+  .bs{height:100%}
+  .fw{display:flex;flex-direction:column;gap:3px;width:90px}
+  .fb{height:4px;border-radius:2px;background:var(--bg4);overflow:hidden}
+  .ff{height:100%;border-radius:2px}
+  /* empty */
+  .er td{text-align:center!important;color:var(--text3)!important;padding:20px!important;font-family:var(--font)!important}
+  /* footer */
+  .footer{border-top:1px solid var(--border);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+  .ft{font-size:11px;color:var(--text3)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="logo">W</div>
+    <span class="hdr-title">Wiom Analytics</span>
+    <span class="hdr-dot">·</span>
+    <span class="hdr-sub">Post-Expiry &amp; Pickup Ticket Dashboard</span>
+  </div>
+  <div class="hdr-r">
+    <span class="data-tag">Jan 26 – Mar 31, 2026</span>
+    <div class="live-dot"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="switchTab('v1',this)">View 1 — Plan Expiry Tracker <span class="tab-num">3 metrics</span></button>
+  <button class="tab" onclick="switchTab('v23',this)">View 2+3 — Pickup Tickets <span class="tab-num">Self &amp; System</span></button>
+</nav>
+
+<!-- ══════ VIEW 1 ══════ -->
+<div class="view active" id="v1">
+  <div class="filter-bar">
+    <div class="fg"><span class="fl">User type</span>
+      <select id="v1-user" onchange="renderV1()">
+        <option value="All">All users</option>
+        <option value="PayG" selected>PayG</option>
+        <option value="NonPayG">NonPayG</option>
+      </select>
+    </div>
+    <div class="fsep"></div>
+    <div class="fg"><span class="fl">Timeline</span>
+      <select id="v1-time" onchange="renderV1()">
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly" selected>Monthly</option>
+      </select>
+    </div>
+    <span id="v1-badge" class="abadge"></span>
+  </div>
+
+  <div class="kpi-grid" id="v1-kpis"></div>
+
+  <div class="shdr" style="margin-top:0">
+    <h3>Expiry cohort breakdown</h3><div class="sline"></div>
+    <span class="sbadge sb-teal">R15-matured only</span>
+    <span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="l" style="width:100px">Period</th>
+        <th style="width:92px"># Expiries</th>
+        <th style="width:92px">(a) Recharge</th>
+        <th style="width:56px">%</th>
+        <th style="width:92px">(b) Self PUT</th>
+        <th style="width:56px">%</th>
+        <th style="width:92px">(c) No action</th>
+        <th style="width:56px">%</th>
+        <th style="min-width:140px">Breakdown</th>
+      </tr></thead>
+      <tbody id="v1-tbody"></tbody>
+    </table>
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fb7185;display:inline-block"></span>(c) No action</span>
+    <span style="font-size:11px;color:var(--text3);margin-left:8px">a + b + c = total expiries</span>
+  </div>
+</div>
+
+<!-- ══════ VIEW 2+3 ══════ -->
+<div class="view" id="v23">
+  <div class="filter-bar">
+    <div class="fg"><span class="fl">User type</span>
+      <select id="v23-user" onchange="renderV23()">
+        <option value="All">All users</option>
+        <option value="PayG" selected>PayG</option>
+        <option value="NonPayG">NonPayG</option>
+      </select>
+    </div>
+    <div class="fsep"></div>
+    <div class="fg"><span class="fl">Timeline</span>
+      <select id="v23-time" onchange="renderV23()">
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly" selected>Monthly</option>
+      </select>
+    </div>
+    <div class="fsep"></div>
+    <div class="fg"><span class="fl">Ticket type</span>
+      <select id="v23-type" onchange="renderV23()">
+        <option value="All" selected>All tickets</option>
+        <option value="Self">Self-created</option>
+        <option value="System">System-created</option>
+      </select>
+    </div>
+    <span id="v23-badge" class="abadge"></span>
+  </div>
+
+  <div class="shdr" style="margin-top:0">
+    <h3>Status breakdown</h3><div class="sline"></div>
+    <span id="v23-s1badge" class="sbadge sb-teal">PayG</span>
+    <span class="sbadge sb-blue">Self = ticket &lt;14d after expiry · System = auto at R15</span>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th class="l" style="width:100px">Period</th>
+        <th style="width:82px">Total PUT</th>
+        <th style="width:68px">Open</th>
+        <th style="width:74px">→ Wiom</th>
+        <th style="width:78px">Resolved</th>
+        <th style="width:92px">Cust. recharge</th>
+        <th style="width:92px">Rtr. recovered</th>
+        <th style="width:78px">Unidentified</th>
+      </tr></thead>
+      <tbody id="v23-tbody1"></tbody>
+    </table>
+  </div>
+
+  <div id="v23-funnel">
+    <div class="shdr">
+      <h3>PayG recovery funnel</h3><div class="sline"></div>
+      <span class="sbadge sb-teal">PayG only</span>
+      <span class="sbadge sb-amber">Router recovered → UPI added → Refund done</span>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th class="l" style="width:100px">Period</th>
+          <th style="width:130px">Router recovered</th>
+          <th style="width:130px">+ UPI added</th>
+          <th style="width:130px">+ Refund done</th>
+          <th style="min-width:110px">Funnel</th>
+        </tr></thead>
+        <tbody id="v23-tbody2"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="ft">Wiom Analytics Dashboard · Data sourced from Snowflake via Metabase</span>
+  <span class="ft" style="font-family:var(--mono)">Generated Mar 31, 2026</span>
+</footer>
+
+<script>
+const V1=[
+  {v:"Weekly",p:"2026-01-26",u:"NonPayG",e:38099,r:33187,s:1509,n:3403},
+  {v:"Weekly",p:"2026-01-26",u:"PayG",e:170,r:149,s:7,n:14},
+  {v:"Weekly",p:"2026-02-02",u:"NonPayG",e:37558,r:32202,s:1428,n:3928},
+  {v:"Weekly",p:"2026-02-02",u:"PayG",e:456,r:410,s:8,n:38},
+  {v:"Weekly",p:"2026-02-09",u:"NonPayG",e:33739,r:28631,s:1234,n:3874},
+  {v:"Weekly",p:"2026-02-09",u:"PayG",e:556,r:525,s:7,n:24},
+  {v:"Weekly",p:"2026-02-16",u:"NonPayG",e:32586,r:27530,s:1189,n:3867},
+  {v:"Weekly",p:"2026-02-16",u:"PayG",e:630,r:590,s:7,n:33},
+  {v:"Weekly",p:"2026-02-23",u:"NonPayG",e:33754,r:28724,s:1211,n:3819},
+  {v:"Weekly",p:"2026-02-23",u:"PayG",e:730,r:684,s:15,n:31},
+  {v:"Weekly",p:"2026-03-02",u:"NonPayG",e:33882,r:29150,s:1289,n:3443},
+  {v:"Weekly",p:"2026-03-02",u:"PayG",e:951,r:888,s:15,n:48},
+  {v:"Weekly",p:"2026-03-09",u:"NonPayG",e:31399,r:26882,s:1219,n:3298},
+  {v:"Weekly",p:"2026-03-09",u:"PayG",e:1071,r:973,s:26,n:72},
+  {v:"Weekly",p:"2026-03-16",u:"NonPayG",e:4329,r:3696,s:91,n:542},
+  {v:"Weekly",p:"2026-03-16",u:"PayG",e:155,r:137,s:3,n:15},
+  {v:"Monthly",p:"2026-01",u:"NonPayG",e:32338,r:28201,s:1244,n:2893},
+  {v:"Monthly",p:"2026-01",u:"PayG",e:109,r:96,s:3,n:10},
+  {v:"Monthly",p:"2026-02",u:"NonPayG",e:138125,r:117542,s:5141,n:15442},
+  {v:"Monthly",p:"2026-02",u:"PayG",e:2323,r:2156,s:39,n:128},
+  {v:"Monthly",p:"2026-03",u:"NonPayG",e:74883,r:64259,s:2785,n:7839},
+  {v:"Monthly",p:"2026-03",u:"PayG",e:2287,r:2104,s:46,n:137}
+];
+
+const V23=[
+  {k:"Self",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:351,op:0,sw:150,rs:201,cr:29,rr:171,ui:1,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-01-26",u:"PayG",t:4,op:0,sw:1,rs:3,cr:1,rr:2,ui:0,prr:2,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-02",u:"NonPayG",t:290,op:0,sw:115,rs:175,cr:21,rr:152,ui:2,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-02",u:"PayG",t:10,op:0,sw:3,rs:7,cr:0,rr:7,ui:0,prr:7,pu:4,prf:4},
+  {k:"Self",v:"Weekly",p:"2026-02-09",u:"NonPayG",t:287,op:1,sw:122,rs:164,cr:37,rr:125,ui:2,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-09",u:"PayG",t:10,op:0,sw:0,rs:10,cr:3,rr:7,ui:0,prr:7,pu:7,prf:5},
+  {k:"Self",v:"Weekly",p:"2026-02-16",u:"NonPayG",t:315,op:0,sw:139,rs:176,cr:55,rr:120,ui:1,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-16",u:"PayG",t:9,op:0,sw:1,rs:8,cr:2,rr:6,ui:0,prr:6,pu:6,prf:4},
+  {k:"Self",v:"Weekly",p:"2026-02-23",u:"NonPayG",t:173,op:1,sw:77,rs:95,cr:9,rr:86,ui:0,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-23",u:"PayG",t:15,op:0,sw:6,rs:9,cr:1,rr:8,ui:0,prr:8,pu:8,prf:8},
+  {k:"Self",v:"Weekly",p:"2026-03-02",u:"NonPayG",t:320,op:0,sw:171,rs:149,cr:43,rr:102,ui:4,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-02",u:"PayG",t:26,op:1,sw:3,rs:22,cr:10,rr:12,ui:0,prr:12,pu:12,prf:12},
+  {k:"Self",v:"Weekly",p:"2026-03-09",u:"NonPayG",t:435,op:176,sw:78,rs:181,cr:50,rr:127,ui:4,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-09",u:"PayG",t:25,op:5,sw:0,rs:20,cr:5,rr:15,ui:0,prr:15,pu:15,prf:15},
+  {k:"Self",v:"Weekly",p:"2026-03-16",u:"NonPayG",t:407,op:229,sw:32,rs:146,cr:51,rr:95,ui:0,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-16",u:"PayG",t:22,op:6,sw:2,rs:14,cr:6,rr:8,ui:0,prr:8,pu:6,prf:6},
+  {k:"Self",v:"Weekly",p:"2026-03-23",u:"NonPayG",t:549,op:376,sw:27,rs:146,cr:61,rr:83,ui:2,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-23",u:"PayG",t:25,op:15,sw:0,rs:10,cr:4,rr:6,ui:0,prr:6,pu:6,prf:5},
+  {k:"Self",v:"Weekly",p:"2026-03-30",u:"NonPayG",t:70,op:63,sw:1,rs:6,cr:2,rr:4,ui:0,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-30",u:"PayG",t:7,op:5,sw:0,rs:2,cr:0,rr:2,ui:0,prr:2,pu:2,prf:2},
+  {k:"Self",v:"Monthly",p:"2026-01",u:"NonPayG",t:303,op:0,sw:135,rs:168,cr:25,rr:142,ui:1,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Monthly",p:"2026-01",u:"PayG",t:2,op:0,sw:0,rs:2,cr:0,rr:2,ui:0,prr:2,pu:0,prf:0},
+  {k:"Self",v:"Monthly",p:"2026-02",u:"NonPayG",t:1061,op:2,sw:447,rs:612,cr:125,rr:482,ui:5,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Monthly",p:"2026-02",u:"PayG",t:43,op:0,sw:11,rs:32,cr:6,rr:26,ui:0,prr:26,pu:23,prf:19},
+  {k:"Self",v:"Monthly",p:"2026-03",u:"NonPayG",t:1833,op:844,sw:330,rs:659,cr:208,rr:441,ui:10,prr:0,pu:0,prf:0},
+  {k:"Self",v:"Monthly",p:"2026-03",u:"PayG",t:108,op:32,sw:5,rs:71,cr:26,rr:45,ui:0,prr:45,pu:43,prf:42},
+  {k:"System",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:4494,op:0,sw:1634,rs:2860,cr:1183,rr:1641,ui:36,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-02",u:"NonPayG",t:4345,op:0,sw:1688,rs:2657,cr:1114,rr:1522,ui:21,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-09",u:"NonPayG",t:4519,op:0,sw:1876,rs:2643,cr:1083,rr:1539,ui:21,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-09",u:"PayG",t:11,op:0,sw:3,rs:8,cr:5,rr:3,ui:0,prr:3,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-16",u:"NonPayG",t:5074,op:0,sw:2126,rs:2948,cr:1107,rr:1814,ui:27,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-16",u:"PayG",t:35,op:0,sw:13,rs:22,cr:15,rr:7,ui:0,prr:7,pu:1,prf:1},
+  {k:"System",v:"Weekly",p:"2026-02-23",u:"NonPayG",t:4855,op:1,sw:2104,rs:2750,cr:1168,rr:1558,ui:24,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-23",u:"PayG",t:19,op:0,sw:6,rs:13,cr:10,rr:3,ui:0,prr:3,pu:2,prf:2},
+  {k:"System",v:"Weekly",p:"2026-03-02",u:"NonPayG",t:4756,op:1,sw:1940,rs:2815,cr:1299,rr:1477,ui:39,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-02",u:"PayG",t:32,op:0,sw:13,rs:19,cr:12,rr:7,ui:0,prr:7,pu:3,prf:3},
+  {k:"System",v:"Weekly",p:"2026-03-09",u:"NonPayG",t:4749,op:2034,sw:424,rs:2291,cr:1169,rr:1102,ui:20,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-09",u:"PayG",t:44,op:11,sw:4,rs:29,cr:20,rr:9,ui:0,prr:9,pu:1,prf:1},
+  {k:"System",v:"Weekly",p:"2026-03-16",u:"NonPayG",t:4517,op:2813,sw:95,rs:1609,cr:850,rr:749,ui:10,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-16",u:"PayG",t:43,op:19,sw:3,rs:21,cr:19,rr:2,ui:0,prr:2,pu:1,prf:1},
+  {k:"System",v:"Weekly",p:"2026-03-23",u:"NonPayG",t:4285,op:3450,sw:64,rs:771,cr:395,rr:373,ui:3,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-23",u:"PayG",t:67,op:44,sw:1,rs:22,cr:11,rr:11,ui:0,prr:11,pu:2,prf:2},
+  {k:"System",v:"Weekly",p:"2026-03-30",u:"NonPayG",t:665,op:635,sw:2,rs:28,cr:10,rr:18,ui:0,prr:0,pu:0,prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-30",u:"PayG",t:18,op:18,sw:0,rs:0,cr:0,rr:0,ui:0,prr:0,pu:0,prf:0},
+  {k:"System",v:"Monthly",p:"2026-01",u:"NonPayG",t:3878,op:0,sw:1409,rs:2469,cr:1028,rr:1409,ui:32,prr:0,pu:0,prf:0},
+  {k:"System",v:"Monthly",p:"2026-02",u:"NonPayG",t:18719,op:1,sw:7732,rs:10986,cr:4466,rr:6425,ui:95,prr:0,pu:0,prf:0},
+  {k:"System",v:"Monthly",p:"2026-02",u:"PayG",t:61,op:0,sw:21,rs:40,cr:27,rr:13,ui:0,prr:13,pu:3,prf:3},
+  {k:"System",v:"Monthly",p:"2026-03",u:"NonPayG",t:19662,op:8933,sw:2812,rs:7917,cr:3884,rr:3959,ui:74,prr:0,pu:0,prf:0},
+  {k:"System",v:"Monthly",p:"2026-03",u:"PayG",t:208,op:92,sw:22,rs:94,cr:65,rr:29,ui:0,prr:29,pu:7,prf:7}
+];
+
+/* helpers */
+const fN=n=>n.toLocaleString('en-IN');
+const fK=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':String(n);
+const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
+const pctF=(a,b)=>b?(a/b*100).toFixed(1)+'%':'—';
+
+function pl(p,v){
+  if(v==='Monthly'){const[y,m]=p.split('-');return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+y;}
+  const d=new Date(p);return d.toLocaleString('default',{month:'short'})+' '+d.getDate();
+}
+function setBadge(el,u){
+  const m={PayG:{bg:'rgba(45,212,191,.15)',c:'#2dd4bf',l:'PayG'},NonPayG:{bg:'rgba(96,165,250,.15)',c:'#60a5fa',l:'NonPayG'},All:{bg:'rgba(148,163,184,.12)',c:'#94a3b8',l:'All users'}};
+  const x=m[u]||m.All; el.textContent=x.l; el.style.background=x.bg; el.style.color=x.c;
+}
+function setTBadge(el,k){
+  const m={Self:{bg:'rgba(96,165,250,.15)',c:'#60a5fa',l:'Self-created'},System:{bg:'rgba(251,191,36,.15)',c:'#fbbf24',l:'System-created'},All:{bg:'rgba(148,163,184,.12)',c:'#94a3b8',l:'All ticket types'}};
+  const x=m[k]||m.All; el.textContent=x.l; el.style.background=x.bg; el.style.color=x.c;
+}
+
+/* ── VIEW 1 ── */
+function gV1(u,t){
+  const rows=V1.filter(r=>r.v===t);
+  const periods=[...new Set(rows.map(r=>r.p))].sort();
+  return periods.map(p=>{
+    const s=u==='All'?rows.filter(r=>r.p===p):rows.filter(r=>r.p===p&&r.u===u);
+    return{period:p,e:s.reduce((a,x)=>a+x.e,0),r:s.reduce((a,x)=>a+x.r,0),s:s.reduce((a,x)=>a+x.s,0),n:s.reduce((a,x)=>a+x.n,0)};
+  }).filter(d=>d.e>0);
+}
+
+function v1Row(d,label,isTotal){
+  const rp=d.e?+(d.r/d.e*100).toFixed(1):0;
+  const sp=d.e?+(d.s/d.e*100).toFixed(1):0;
+  const np=d.e?+(d.n/d.e*100).toFixed(1):0;
+  const cls=isTotal?' class="tr"':'';
+  return `<tr${cls}>
+    <td class="l">${label}</td>
+    <td>${fN(d.e)}</td>
+    <td class="c-teal">${fN(d.r)}</td>
+    <td><span style="color:#2dd4bf">${rp}%</span></td>
+    <td class="c-amber">${fN(d.s)}</td>
+    <td><span style="color:#fbbf24">${sp}%</span></td>
+    <td class="c-coral">${fN(d.n)}</td>
+    <td><span style="color:#fb7185">${np}%</span></td>
+    <td><div class="bs-wrap"><div class="bs" style="width:${rp}%;background:#2dd4bf"></div><div class="bs" style="width:${sp}%;background:#fbbf24"></div><div class="bs" style="width:${np}%;background:#fb7185"></div></div></td>
+  </tr>`;
+}
+
+function renderV1(){
+  const u=document.getElementById('v1-user').value;
+  const t=document.getElementById('v1-time').value;
+  const data=gV1(u,t);
+  setBadge(document.getElementById('v1-badge'),u);
+  const tE=data.reduce((a,x)=>a+x.e,0),tR=data.reduce((a,x)=>a+x.r,0),tS=data.reduce((a,x)=>a+x.s,0),tN=data.reduce((a,x)=>a+x.n,0);
+  document.getElementById('v1-kpis').innerHTML=`
+    <div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div>
+    <div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div>
+    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15</div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div>
+    <div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
+  const rows=data.map(d=>v1Row(d,pl(d.period,t),false));
+  rows.push(v1Row({e:tE,r:tR,s:tS,n:tN},'TOTAL',true));
+  document.getElementById('v1-tbody').innerHTML=rows.length>1?rows.join(''):`<tr class="er"><td colspan="9">No data for selected filters</td></tr>`;
+}
+
+/* ── VIEW 2+3 ── */
+function gV23(u,t,k){
+  let rows=V23.filter(r=>r.v===t);
+  if(k!=='All') rows=rows.filter(r=>r.k===k);
+  const periods=[...new Set(rows.map(r=>r.p))].sort();
+  return periods.map(p=>{
+    const s=u==='All'?rows.filter(r=>r.p===p):rows.filter(r=>r.p===p&&r.u===u);
+    const pg=rows.filter(r=>r.p===p&&r.u==='PayG');
+    return{period:p,
+      t:s.reduce((a,x)=>a+x.t,0),op:s.reduce((a,x)=>a+x.op,0),sw:s.reduce((a,x)=>a+x.sw,0),rs:s.reduce((a,x)=>a+x.rs,0),cr:s.reduce((a,x)=>a+x.cr,0),rr:s.reduce((a,x)=>a+x.rr,0),ui:s.reduce((a,x)=>a+x.ui,0),
+      prr:pg.reduce((a,x)=>a+x.prr,0),pu:pg.reduce((a,x)=>a+x.pu,0),prf:pg.reduce((a,x)=>a+x.prf,0)};
+  }).filter(d=>d.t>0);
+}
+
+function s1Row(d,label,isTot){
+  const cls=isTot?' class="tr"':'';
+  return`<tr${cls}>
+    <td class="l">${label}</td>
+    <td>${fN(d.t)}</td>
+    <td class="c-coral">${fN(d.op)}<div class="td-sub">${pct(d.op,d.t)}</div></td>
+    <td class="c-amber">${fN(d.sw)}<div class="td-sub">${pct(d.sw,d.t)}</div></td>
+    <td class="c-green">${fN(d.rs)}<div class="td-sub">${pct(d.rs,d.t)}</div></td>
+    <td>${fN(d.cr)}<div class="td-sub">${pct(d.cr,d.rs)} of res.</div></td>
+    <td>${fN(d.rr)}<div class="td-sub">${pct(d.rr,d.rs)} of res.</div></td>
+    <td class="c-slate">${fN(d.ui)}<div class="td-sub">${pct(d.ui,d.rs)} of res.</div></td>
+  </tr>`;
+}
+
+function s2Row(d,label,isTot){
+  const w1=d.prr?+(d.pu/d.prr*100).toFixed(0):0;
+  const w2=d.pu?+(d.prf/d.pu*100).toFixed(0):0;
+  const cls=isTot?' class="tr"':'';
+  return`<tr${cls}>
+    <td class="l">${label}</td>
+    <td class="c-blue">${fN(d.prr)}</td>
+    <td class="c-amber">${fN(d.pu)}<div class="td-sub">${pct(d.pu,d.prr)} of rcvrd</div></td>
+    <td class="c-teal">${fN(d.prf)}<div class="td-sub">${pct(d.prf,d.pu)} of UPI</div></td>
+    <td><div class="fw"><div class="fb"><div class="ff" style="width:${w1}%;background:#fbbf24"></div></div><div class="fb"><div class="ff" style="width:${w2}%;background:#2dd4bf"></div></div></div>
+    <div style="display:flex;gap:8px;margin-top:3px"><span style="font-size:10px;color:var(--text3)">${w1}% UPI</span><span style="font-size:10px;color:var(--text3)">${w2}% refund</span></div></td>
+  </tr>`;
+}
+
+function renderV23(){
+  const u=document.getElementById('v23-user').value;
+  const t=document.getElementById('v23-time').value;
+  const k=document.getElementById('v23-type').value;
+  const data=gV23(u,t,k);
+  setTBadge(document.getElementById('v23-badge'),k);
+  setBadge(document.getElementById('v23-s1badge'),u);
+
+  const tT=data.reduce((a,x)=>a+x.t,0),tOp=data.reduce((a,x)=>a+x.op,0),tSw=data.reduce((a,x)=>a+x.sw,0),tRs=data.reduce((a,x)=>a+x.rs,0),tCr=data.reduce((a,x)=>a+x.cr,0),tRr=data.reduce((a,x)=>a+x.rr,0),tUi=data.reduce((a,x)=>a+x.ui,0);
+  const r1=data.map(d=>s1Row(d,pl(d.period,t),false));
+  r1.push(s1Row({t:tT,op:tOp,sw:tSw,rs:tRs,cr:tCr,rr:tRr,ui:tUi},'TOTAL',true));
+  document.getElementById('v23-tbody1').innerHTML=r1.length>1?r1.join(''):`<tr class="er"><td colspan="8">No data</td></tr>`;
+
+  const showF=u==='PayG'||u==='All';
+  document.getElementById('v23-funnel').style.display=showF?'block':'none';
+  if(showF){
+    const tPrr=data.reduce((a,x)=>a+x.prr,0),tPu=data.reduce((a,x)=>a+x.pu,0),tPrf=data.reduce((a,x)=>a+x.prf,0);
+    const r2=data.map(d=>s2Row(d,pl(d.period,t),false));
+    r2.push(s2Row({prr:tPrr,pu:tPu,prf:tPrf},'TOTAL',true));
+    document.getElementById('v23-tbody2').innerHTML=r2.length>1?r2.join(''):`<tr class="er"><td colspan="5">No PayG data</td></tr>`;
+  }
+}
+
+function switchTab(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+renderV1();
+renderV23();
+</script>
+</body>
+</html>
