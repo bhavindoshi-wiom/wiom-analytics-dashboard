@@ -56,11 +56,11 @@
   .bs-wrap{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--bg4);gap:1px;width:120px}.bs{height:100%}
   .fw{display:flex;flex-direction:column;gap:3px;width:90px}.fb{height:4px;border-radius:2px;background:var(--bg4);overflow:hidden}.ff{height:100%;border-radius:2px}
   .er td{text-align:center!important;color:var(--text3)!important;padding:20px!important;font-family:var(--font)!important}
-  /* fix banner */
-  .fix-banner{background:rgba(45,212,191,.07);border:1px solid rgba(45,212,191,.2);border-radius:var(--r2);padding:10px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px}
-  .fix-icon{font-size:14px;margin-top:1px;flex-shrink:0}
-  .fix-text{font-size:12px;color:var(--text2);line-height:1.5}
-  .fix-text strong{color:var(--teal);font-weight:600}
+  /* fix note */
+  .fix-note{display:flex;align-items:flex-start;gap:10px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:var(--r2);padding:12px 16px;margin-bottom:20px}
+  .fix-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+  .fix-text{font-size:12px;color:var(--text2);line-height:1.6}
+  .fix-text strong{color:var(--amber)}
   /* comparison */
   .cmp-table{width:100%;border-collapse:collapse;font-size:13px}
   .cmp-table thead tr{background:var(--bg3)}
@@ -73,11 +73,10 @@
   .cmp-table td{padding:10px 16px;border-bottom:1px solid var(--border)}
   .cmp-table tbody tr:last-child td{border-bottom:none}
   .cmp-table tbody tr:not(.group-row):hover td{background:var(--bg3)}
-  .cmp-table .metric-lbl{font-size:13px;font-weight:500;color:var(--text)}
-  .cmp-table .metric-sub{font-size:11px;color:var(--text3);margin-top:1px}
-  .cmp-table .val-cell{text-align:right;font-family:var(--mono);font-size:13px}
-  .cmp-table .val-main{color:var(--text)}
-  .cmp-table .val-pct{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--font)}
+  .metric-lbl{font-size:13px;font-weight:500;color:var(--text)}
+  .metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
+  .val-cell{text-align:right;font-family:var(--mono);font-size:13px}
+  .val-pct{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--font)}
   .dual-bar{display:flex;align-items:center;gap:4px;justify-content:center;padding:0 8px}
   .bar-payg-wrap{flex:1;display:flex;justify-content:flex-end}
   .bar-nonpayg-wrap{flex:1;display:flex;justify-content:flex-start}
@@ -85,10 +84,12 @@
   .bnpg{height:8px;border-radius:0 2px 2px 0;background:var(--blue);min-width:2px}
   .bar-center-tick{width:1px;height:14px;background:var(--border2);flex-shrink:0}
   .delta{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;font-family:var(--mono)}
-  .delta-payg{background:var(--teal-dim);color:var(--teal)}.delta-nonpayg{background:var(--blue-dim);color:var(--blue)}.delta-neutral{background:rgba(100,116,139,.12);color:var(--text3)}
+  .delta-payg{background:var(--teal-dim);color:var(--teal)}
+  .delta-nonpayg{background:var(--blue-dim);color:var(--blue)}
+  .delta-neutral{background:rgba(100,116,139,.12);color:var(--text3)}
   .group-row td{background:var(--bg3)!important;padding:8px 16px!important;border-bottom:1px solid var(--border)!important;border-top:1px solid var(--border2)!important}
-  .group-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
   .group-row:first-child td{border-top:none!important}
+  .group-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
   .sub-metric .metric-lbl{font-size:12px;color:var(--text2);padding-left:16px}
   .sub-metric td{background:rgba(28,35,48,.5)}
   .footer{border-top:1px solid var(--border);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
@@ -116,14 +117,12 @@
   <button class="tab" onclick="switchTab('cmp',this)">PayG vs NonPayG <span class="tab-num">comparison</span></button>
 </nav>
 
-<!-- ══ VIEW 1 ══════════════════════════════════════════════════ -->
+<!-- ══ VIEW 1 ═══════════════════════════════════════════════════ -->
 <div class="view active" id="v1">
-  <div class="fix-banner">
-    <div class="fix-icon">✦</div>
+  <div class="fix-note">
+    <span class="fix-icon">⚑</span>
     <div class="fix-text">
-      <strong>(b) Self PUT</strong> now counts only <strong>customer app-created</strong> pickup tickets within R0–15 (ticket raised &lt;14 days after plan expiry, initiated by the customer on the app).
-      System-auto-generated tickets that happen to fall within the R0–15 window are correctly moved to <strong>(c) No action</strong>.
-      This makes PayG vs NonPayG Self PUT rates meaningfully comparable — PayG has the in-app self-creation feature; NonPayG does not.
+      <strong>Definition update (Mar 31, 2026):</strong> (b) Self PUT now counts only <strong>customer-initiated tickets</strong> (raised via app, within 14 days of expiry) — not system-generated tickets that happen to fall in the R0–15 window. Previously, system tickets created at R14–15 were inflating this bucket, masking the true PayG vs NonPayG difference. NonPayG Self PUT rate dropped from ~3.7% → ~0.3%; PayG stayed at ~1.0–1.5% (genuine in-app creation). No action accordingly increased for both cohorts.
     </div>
   </div>
 
@@ -144,10 +143,11 @@
 
   <div class="kpi-grid" id="v1-kpis"></div>
 
-  <div class="shdr" style="margin-top:0"><h3>Expiry cohort breakdown</h3><div class="sline"></div>
+  <div class="shdr" style="margin-top:0">
+    <h3>Expiry cohort breakdown</h3><div class="sline"></div>
     <span class="sbadge sb-teal">R15-matured only</span>
     <span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
-    <span class="sbadge sb-coral">Self PUT = app-created only</span>
+    <span class="sbadge sb-amber">(b) Self PUT = customer-created via app only</span>
   </div>
 
   <div class="tw"><table>
@@ -155,22 +155,21 @@
       <th class="l" style="width:100px">Period</th>
       <th style="width:92px"># Expiries</th>
       <th style="width:92px">(a) Recharge</th><th style="width:56px">%</th>
-      <th style="width:108px">(b) Self PUT ↗</th><th style="width:56px">%</th>
+      <th style="width:92px">(b) Self PUT</th><th style="width:56px">%</th>
       <th style="width:92px">(c) No action</th><th style="width:56px">%</th>
       <th style="min-width:140px">Breakdown</th>
     </tr></thead>
     <tbody id="v1-tbody"></tbody>
   </table></div>
 
-  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge</span>
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT (app-created)</span>
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fb7185;display:inline-block"></span>(c) No action</span>
-    <span style="font-size:11px;color:var(--text3);margin-left:8px">a + b + c = total expiries</span>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge — next plan within 15 days</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT — customer-initiated ticket within 15 days (app only)</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fb7185;display:inline-block"></span>(c) No action — neither recharged nor self-created ticket</span>
   </div>
 </div>
 
-<!-- ══ VIEW 2+3 ════════════════════════════════════════════════ -->
+<!-- ══ VIEW 2+3 ══════════════════════════════════════════════════ -->
 <div class="view" id="v23">
   <div class="filter-bar">
     <div class="fg"><span class="fl">User type</span>
@@ -211,15 +210,15 @@
     <div class="tw"><table>
       <thead><tr>
         <th class="l" style="width:100px">Period</th>
-        <th style="width:130px">Router recovered</th><th style="width:130px">+ UPI added</th><th style="width:130px">+ Refund done</th>
-        <th style="min-width:110px">Funnel</th>
+        <th style="width:130px">Router recovered</th><th style="width:130px">+ UPI added</th>
+        <th style="width:130px">+ Refund done</th><th style="min-width:110px">Funnel</th>
       </tr></thead>
       <tbody id="v23-tbody2"></tbody>
     </table></div>
   </div>
 </div>
 
-<!-- ══ COMPARISON VIEW ═════════════════════════════════════════ -->
+<!-- ══ COMPARISON VIEW ══════════════════════════════════════════ -->
 <div class="view" id="cmp">
   <div class="filter-bar">
     <div class="fg"><span class="fl">Timeline</span>
@@ -233,7 +232,7 @@
         <option value="All" selected>All tickets</option><option value="Self">Self-created</option><option value="System">System-created</option>
       </select>
     </div>
-    <span style="font-size:11px;color:var(--text3);margin-left:8px;display:flex;align-items:center;gap:8px">
+    <span style="font-size:11px;color:var(--text3);margin-left:8px;display:flex;align-items:center;gap:10px">
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;border-radius:2px;background:var(--teal);display:inline-block"></span>PayG</span>
       <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:8px;border-radius:2px;background:var(--blue);display:inline-block"></span>NonPayG</span>
     </span>
@@ -250,8 +249,8 @@
       <tbody id="cmp-tbody"></tbody>
     </table>
   </div>
-  <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:-16px;padding:0 4px">
-    <span style="font-size:11px;color:var(--text3)">Bar width = rate relative to max · Bars grow from centre</span>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:-16px;padding:0 4px">
+    <span style="font-size:11px;color:var(--text3)">Bar width = rate relative to max of both cohorts · Bars meet at centre</span>
     <span style="font-size:11px;color:var(--teal)">▲ PayG = PayG performs better</span>
     <span style="font-size:11px;color:var(--blue)">▲ NonPayG = NonPayG performs better</span>
   </div>
@@ -263,9 +262,9 @@
 </footer>
 
 <script>
-/* ═══════════════════════════ DATA ═══════════════════════════ */
+/* ═══════════ DATA ══════════════════════════════════════════════ */
 
-// View 1 — corrected: Self PUT = app-created tickets only (mins_after_expiry < 20160)
+// View 1 — CORRECTED: (b) Self PUT = customer-created tickets only
 const V1=[
   {v:"Weekly",p:"2026-01-26",u:"NonPayG",e:38099,r:33187,s:139,n:4773},
   {v:"Weekly",p:"2026-01-26",u:"PayG",   e:170,  r:149,  s:6,  n:15},
@@ -343,7 +342,7 @@ const V23=[
   {k:"System",v:"Monthly",p:"2026-03",u:"PayG",t:208,op:92,sw:22,rs:94,cr:65,rr:29,ui:0,prr:29,pu:7,prf:7}
 ];
 
-/* ═══════════════════════════ HELPERS ═══════════════════════ */
+/* ═══════════ HELPERS ═══════════════════════════════════════════ */
 const fN=n=>n.toLocaleString('en-IN');
 const fK=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':String(n);
 const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
@@ -363,7 +362,7 @@ function setTBadge(el,k){
   const x=m[k]||m.All;el.textContent=x.l;el.style.background=x.bg;el.style.color=x.c;
 }
 
-/* ═══════════════════════════ VIEW 1 ═════════════════════════ */
+/* ═══════════ VIEW 1 ════════════════════════════════════════════ */
 function gV1(u,t){
   const rows=V1.filter(r=>r.v===t);
   const periods=[...new Set(rows.map(r=>r.p))].sort();
@@ -383,14 +382,14 @@ function renderV1(){
   document.getElementById('v1-kpis').innerHTML=`
     <div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div>
     <div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div>
-    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15 ↗</div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries · app-created</div></div>
+    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15 <span style="font-size:9px;opacity:.7">(app-created)</span></div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div>
     <div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
   const rows=data.map(d=>v1Row(d,pl(d.period,t),false));
   rows.push(v1Row({e:tE,r:tR,s:tS,n:tN},'TOTAL',true));
   document.getElementById('v1-tbody').innerHTML=rows.length>1?rows.join(''):`<tr class="er"><td colspan="9">No data</td></tr>`;
 }
 
-/* ═══════════════════════════ VIEW 2+3 ═══════════════════════ */
+/* ═══════════ VIEW 2+3 ══════════════════════════════════════════ */
 function gV23(u,t,k){
   let rows=V23.filter(r=>r.v===t);
   if(k!=='All') rows=rows.filter(r=>r.k===k);
@@ -424,31 +423,55 @@ function renderV23(){
   }
 }
 
-/* ═══════════════════════════ COMPARISON ════════════════════ */
-function sumV1(u,t){const rows=V1.filter(r=>r.v===t&&r.u===u);return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};}
-function sumV23(u,t,k){let rows=V23.filter(r=>r.v===t&&r.u===u);if(k!=='All')rows=rows.filter(r=>r.k===k);return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};}
+/* ═══════════ COMPARISON VIEW ═══════════════════════════════════ */
+function sumV1(u,t){
+  const rows=V1.filter(r=>r.v===t&&r.u===u);
+  return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};
+}
+function sumV23(u,t,k){
+  let rows=V23.filter(r=>r.v===t&&r.u===u);
+  if(k!=='All') rows=rows.filter(r=>r.k===k);
+  return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};
+}
 
-function cmpRow(label,sub,pgVal,pgPct,npgVal,npgPct,higherIsBetter,isSubMetric){
-  const pgP=pgPct??0,npP=npgPct??0;
-  const scale=Math.max(pgP,npP,1);
-  const pgW=Math.round(pgP/scale*72),npW=Math.round(npP/scale*72);
-  const diff=pgP-npP;
-  const winner=Math.abs(diff)<0.5?'neutral':(higherIsBetter===null?'neutral':(higherIsBetter?(diff>0?'payg':'nonpayg'):(diff<0?'payg':'nonpayg')));
-  const deltaLabel=winner==='neutral'?'≈ Equal':(winner==='payg'?'▲ PayG':'▲ NonPayG');
-  const deltaCls=winner==='neutral'?'delta-neutral':winner==='payg'?'delta-payg':'delta-nonpayg';
-  const ppDiff=Math.abs(diff)>=0.5?` ${Math.abs(diff).toFixed(1)}pp`:'';
-  const rowCls=isSubMetric?' class="sub-metric"':'';
-  return`<tr${rowCls}>
+function cmpRow(label,sub,pgV,pgP,npgV,npgP,higherBetter,isSub){
+  const pg=pgP??0,npg=npgP??0;
+  const scale=Math.max(pg,npg,1);
+  const pgW=Math.round(pg/scale*72),npW=Math.round(npg/scale*72);
+  const diff=pg-npg;
+  const winner=Math.abs(diff)<0.5?'neutral':(higherBetter?(diff>0?'payg':'nonpayg'):(diff<0?'payg':'nonpayg'));
+  const dlbl=winner==='neutral'?'≈ Equal':(winner==='payg'?'▲ PayG':'▲ NonPayG');
+  const dcls=winner==='neutral'?'delta-neutral':winner==='payg'?'delta-payg':'delta-nonpayg';
+  const pp=Math.abs(diff)>=0.5?` ${Math.abs(diff).toFixed(1)}pp`:'';
+  const rcls=isSub?' class="sub-metric"':'';
+  return`<tr${rcls}>
     <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
-    <td class="val-cell" style="text-align:right"><div class="val-main c-teal">${pgVal!==null?fN(pgVal):'—'}</div>${pgPct!==null?`<div class="val-pct">${pgPct.toFixed(1)}%</div>`:''}</td>
+    <td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${pgV!==null?fN(pgV):'—'}</div>${pgP!==null?`<div class="val-pct">${pgP.toFixed(1)}%</div>`:''}</td>
     <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td>
-    <td class="val-cell" style="text-align:right"><div class="val-main c-blue">${npgVal!==null?fN(npgVal):'—'}</div>${npgPct!==null?`<div class="val-pct">${npgPct.toFixed(1)}%</div>`:''}</td>
-    <td style="text-align:center"><span class="delta ${deltaCls}">${deltaLabel}${ppDiff}</span></td>
+    <td class="val-cell" style="text-align:right"><div style="color:var(--blue);font-family:var(--mono)">${npgV!==null?fN(npgV):'—'}</div>${npgP!==null?`<div class="val-pct">${npgP.toFixed(1)}%</div>`:''}</td>
+    <td style="text-align:center"><span class="delta ${dcls}">${dlbl}${pp}</span></td>
+  </tr>`;
+}
+function volRow(label,sub,pgV,npgV){
+  const scale=Math.max(pgV,npgV,1),pgW=Math.round(pgV/scale*72),npW=Math.round(npgV/scale*72);
+  return`<tr>
+    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
+    <td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${fN(pgV)}</div></td>
+    <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td>
+    <td class="val-cell" style="text-align:right"><div style="color:var(--blue);font-family:var(--mono)">${fN(npgV)}</div></td>
+    <td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td>
   </tr>`;
 }
 function groupRow(label){return`<tr class="group-row"><td colspan="5"><span class="group-label">${label}</span></td></tr>`;}
-function volRow(label,sub,pgV,npgV){
-  return`<tr><td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td><td class="val-cell" style="text-align:right"><div class="val-main c-teal">${fN(pgV)}</div></td><td><div style="text-align:center;font-size:11px;color:var(--text3)">volume only</div></td><td class="val-cell" style="text-align:right"><div class="val-main c-blue">${fN(npgV)}</div></td><td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td></tr>`;
+function paygOnlyRow(label,sub,pgV,pgP){
+  const w=Math.round(Math.min(pgP??0,100)/100*72);
+  return`<tr>
+    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
+    <td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${pgV!==null?fN(pgV):'—'}</div>${pgP!==null?`<div class="val-pct">${pgP.toFixed(1)}%</div>`:''}</td>
+    <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${w}px;border-radius:2px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"></div></div></td>
+    <td class="val-cell" style="text-align:right;color:var(--text3);font-size:11px">N/A</td>
+    <td style="text-align:center"><span class="delta delta-neutral">PayG only</span></td>
+  </tr>`;
 }
 
 function renderCmp(){
@@ -457,17 +480,20 @@ function renderCmp(){
   const pg1=sumV1('PayG',t),npg1=sumV1('NonPayG',t);
   const pgP=sumV23('PayG',t,k),npgP=sumV23('NonPayG',t,k);
   const pgSelf=sumV23('PayG',t,'Self'),pgSys=sumV23('PayG',t,'System');
+
   const rows=[];
 
-  rows.push(groupRow('Plan Expiry Funnel — R0–15 window (R15-matured expiries only)'));
+  // ── SECTION 1: PLAN EXPIRY
+  rows.push(groupRow('Plan Expiry Funnel — R0–15 window (corrected: self PUT = app-created only)'));
   rows.push(volRow('Total plan expiries','All expiries where R15 has elapsed',pg1.e,npg1.e));
-  rows.push(cmpRow('(a) Recharge R0–15','Customer bought next plan within 15 days of expiry',pg1.r,pctN(pg1.r,pg1.e),npg1.r,pctN(npg1.r,npg1.e),true,false));
-  rows.push(cmpRow('(b) Self PUT R0–15 ↗','App-created ROUTER_PICKUP ticket within 15 days (PayG in-app feature)',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),true,false));
-  rows.push(cmpRow('→ Self PUT as % of churned','% of non-rechargers who still self-initiated a PUT',pg1.s,pctN(pg1.s,pg1.s+pg1.n),npg1.s,pctN(npg1.s,npg1.s+npg1.n),true,true));
-  rows.push(cmpRow('(c) No action R0–15','Neither recharged nor app-created a PUT within R0–15',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
+  rows.push(cmpRow('(a) Recharge R0–15','Next plan started within 15 days of expiry',pg1.r,pctN(pg1.r,pg1.e),npg1.r,pctN(npg1.r,npg1.e),true,false));
+  rows.push(cmpRow('(b) Self PUT R0–15','Customer-initiated ROUTER_PICKUP ticket via app within 15 days',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),true,false));
+  rows.push(cmpRow('Self PUT (% of non-recharged)','Of those who did not recharge, how many created a self PUT',pg1.s,pctN(pg1.s,pg1.s+pg1.n),npg1.s,pctN(npg1.s,npg1.s+npg1.n),true,false));
+  rows.push(cmpRow('(c) No action R0–15','Neither recharged nor self-created a ticket',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
 
-  const ticketTypeLabel=k==='Self'?'Self-Created':k==='System'?'System-Created':'All';
-  rows.push(groupRow(`Pickup Tickets — Status Breakdown (${ticketTypeLabel})`));
+  // ── SECTION 2: TICKET STATUS
+  const tkLabel=k==='Self'?'Self-Created':k==='System'?'System-Created':'All';
+  rows.push(groupRow(`Pickup Tickets — Status Breakdown (${tkLabel})`));
   rows.push(volRow('Total PUT tickets','ROUTER_PICKUP tasks from Jan 26, 2026',pgP.t,npgP.t));
   rows.push(cmpRow('Open rate','Tickets with status 0 or 1 (unresolved)',pgP.op,pctN(pgP.op,pgP.t),npgP.op,pctN(npgP.op,npgP.t),false,false));
   rows.push(cmpRow('Send to Wiom rate','Tickets escalated (status 3)',pgP.sw,pctN(pgP.sw,pgP.t),npgP.sw,pctN(npgP.sw,npgP.t),false,false));
@@ -476,20 +502,22 @@ function renderCmp(){
   rows.push(cmpRow('→ Router recovered','% of resolved where router was physically picked up',pgP.rr,pctN(pgP.rr,pgP.rs),npgP.rr,pctN(npgP.rr,npgP.rs),null,true));
   rows.push(cmpRow('→ Unidentified','% of resolved with no recovery type and no payment',pgP.ui,pctN(pgP.ui,pgP.rs),npgP.ui,pctN(npgP.ui,npgP.rs),false,true));
 
-  rows.push(groupRow('PayG Recovery Funnel — Self-Created Tickets'));
-  rows.push(volRow('Router recovered (self PUT)','Resolved with ROUTER_RECOVERED',pgSelf.prr,0));
-  rows.push(cmpRow('UPI add rate','% of recovered PayG customers who added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr),null,null,null,false));
-  rows.push(cmpRow('Refund completion rate','% of UPI-added where refund status = SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu),null,null,null,false));
+  // ── SECTION 3: PAYG FUNNEL — Self created
+  rows.push(groupRow('PayG Recovery Funnel — Self-Created Tickets (PayG only, no NonPayG equivalent)'));
+  rows.push(paygOnlyRow('Router recovered',null,pgSelf.prr,null));
+  rows.push(paygOnlyRow('UPI added after recovery','% of recovered PayG who added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr)));
+  rows.push(paygOnlyRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu)));
 
-  rows.push(groupRow('PayG Recovery Funnel — System-Created Tickets'));
-  rows.push(volRow('Router recovered (system PUT)','Resolved with ROUTER_RECOVERED',pgSys.prr,0));
-  rows.push(cmpRow('UPI add rate','% of recovered PayG customers who added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr),null,null,null,false));
-  rows.push(cmpRow('Refund completion rate','% of UPI-added where refund status = SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu),null,null,null,false));
+  // ── SECTION 4: PAYG FUNNEL — System created
+  rows.push(groupRow('PayG Recovery Funnel — System-Created Tickets (PayG only)'));
+  rows.push(paygOnlyRow('Router recovered',null,pgSys.prr,null));
+  rows.push(paygOnlyRow('UPI added after recovery','% of recovered PayG who added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr)));
+  rows.push(paygOnlyRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu)));
 
   document.getElementById('cmp-tbody').innerHTML=rows.join('');
 }
 
-/* ═══════════════════════════ TAB ════════════════════════════ */
+/* ═══════════ TAB ═══════════════════════════════════════════════ */
 function switchTab(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
