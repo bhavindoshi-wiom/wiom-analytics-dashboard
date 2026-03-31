@@ -470,6 +470,26 @@ END) AS has_put_in_window
 
 ---
 
+### Bug 5 — Self PUT bucket inflated by system tickets at day 14–15 periphery (View 1)
+**Symptom:** Self PUT % looked similar for PayG (~24%) and NonPayG (~26%) even though the in-app self-creation feature was only enabled for PayG customers.
+
+**Root cause:** The original query counted ANY `ROUTER_PICKUP` ticket in the R0–15 window, regardless of origin. The system auto-generates tickets at R15 (≥ 20,160 minutes after expiry). Tickets fired between day 14 and day 15 still fall inside the R0–15 window and were being counted as "Self PUT." This was especially severe for NonPayG — 85% of their R0–15 PUT tickets were system-generated periphery tickets; only 15% were genuinely customer-created.
+
+| | NonPayG | PayG |
+|---|---|---|
+| Customer-created (Day 0–13) | 1,944 (14.6%) | 107 (71.8%) |
+| System / periphery (Day 14–15) | 11,391 (85.4%) | 42 (28.2%) |
+
+**Fix:** Filter to only `generated_by = 'Customer'` (i.e., `mins_after_expiry < 20160`) for the Self PUT bucket. Applied identically to both cohorts.
+
+**Corrected Self PUT rates (as % of non-recharged):**
+- PayG: **~10–13%** (genuine in-app creation)
+- NonPayG: **~2–3%** (customer-care raised tickets only)
+
+This ~5–6× difference correctly reflects that the in-app self-creation feature was PayG-exclusive.
+
+---
+
 ### Bug 3 — Recharge boundary excluded advance renewals (View 1)
 **Symptom:** Minor undercount of recharges.
 

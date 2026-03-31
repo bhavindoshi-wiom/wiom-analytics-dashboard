@@ -122,7 +122,14 @@
   <div class="fix-note">
     <span class="fix-icon">⚑</span>
     <div class="fix-text">
-      <strong>Definition update (Mar 31, 2026):</strong> (b) Self PUT now counts only <strong>customer-initiated tickets</strong> (raised via app, within 14 days of expiry) — not system-generated tickets that happen to fall in the R0–15 window. Previously, system tickets created at R14–15 were inflating this bucket, masking the true PayG vs NonPayG difference. NonPayG Self PUT rate dropped from ~3.7% → ~0.3%; PayG stayed at ~1.0–1.5% (genuine in-app creation). No action accordingly increased for both cohorts.
+      <strong>Definition (updated Mar 31, 2026):</strong>
+      (b) Self PUT = customer-initiated ticket raised via app, <strong>within 14 days (20,160 min) of expiry</strong>. 
+      Tickets created at day 14–15 (20,160–21,600 min after expiry) are classified as <strong>system-generated</strong> and excluded — this logic applies equally to both PayG and NonPayG.
+      <br><br>
+      Why this matters: 85% of NonPayG PUT tickets in the R0–15 window fall in this periphery band (system auto-trigger at R15), vs 28% for PayG. 
+      Without this fix, NonPayG Self PUT was inflated ~10× by system tickets, making PayG and NonPayG look artificially similar.
+      <br><br>
+      Genuine self-creation rate (as % of non-recharged): <strong style="color:var(--teal)">PayG ~10–13%</strong> vs <strong style="color:var(--blue)">NonPayG ~2–3%</strong> — reflecting that the in-app self-creation feature was only enabled for PayG customers.
     </div>
   </div>
 
