@@ -34,7 +34,7 @@
   .shdr h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
   .sline{flex:1;height:1px;background:var(--border)}
   .sbadge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
-  .sb-teal{background:var(--teal-dim);color:var(--teal)}.sb-blue{background:var(--blue-dim);color:var(--blue)}.sb-amber{background:var(--amber-dim);color:var(--amber)}.sb-coral{background:var(--coral-dim);color:var(--coral)}
+  .sb-teal{background:var(--teal-dim);color:var(--teal)}.sb-blue{background:var(--blue-dim);color:var(--blue)}.sb-amber{background:var(--amber-dim);color:var(--amber)}
   .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
   .kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;transition:border-color .15s}
   .kpi:hover{border-color:var(--border2)}
@@ -117,19 +117,18 @@
   <button class="tab" onclick="switchTab('cmp',this)">PayG vs NonPayG <span class="tab-num">comparison</span></button>
 </nav>
 
-<!-- ══ VIEW 1 ═══════════════════════════════════════════════════ -->
+<!-- ══ VIEW 1 ══════════════════════════════════════════════════ -->
 <div class="view active" id="v1">
   <div class="fix-note">
     <span class="fix-icon">⚑</span>
     <div class="fix-text">
-      <strong>Definition (updated Mar 31, 2026):</strong>
-      (b) Self PUT = customer-initiated ticket raised via app, <strong>within 14 days (20,160 min) of expiry</strong>. 
-      Tickets created at day 14–15 (20,160–21,600 min after expiry) are classified as <strong>system-generated</strong> and excluded — this logic applies equally to both PayG and NonPayG.
-      <br><br>
-      Why this matters: 85% of NonPayG PUT tickets in the R0–15 window fall in this periphery band (system auto-trigger at R15), vs 28% for PayG. 
-      Without this fix, NonPayG Self PUT was inflated ~10× by system tickets, making PayG and NonPayG look artificially similar.
-      <br><br>
-      Genuine self-creation rate (as % of non-recharged): <strong style="color:var(--teal)">PayG ~10–13%</strong> vs <strong style="color:var(--blue)">NonPayG ~2–3%</strong> — reflecting that the in-app self-creation feature was only enabled for PayG customers.
+      <strong>Classification rule (all views):</strong>
+      Ticket created &lt; 20,160 min (14 days) after plan expiry = <strong>Customer-created (Self)</strong>.
+      Ticket created ≥ 20,160 min = <strong>System-generated</strong> — this includes day 14–15 "periphery" tickets that fall inside the R0–15 window.
+      Rule applied identically for PayG and NonPayG across all three views.
+      <br>
+      Impact: NonPayG Self PUT dropped from ~3.7% → ~0.3%; PayG from ~1.9% → ~1.0–1.3%.
+      Genuine self-creation rate (% of non-recharged): <strong style="color:var(--teal)">PayG ~10–13%</strong> vs <strong style="color:var(--blue)">NonPayG ~2–3%</strong>.
     </div>
   </div>
 
@@ -154,7 +153,7 @@
     <h3>Expiry cohort breakdown</h3><div class="sline"></div>
     <span class="sbadge sb-teal">R15-matured only</span>
     <span class="sbadge sb-blue">PayG = first install ≥ Jan 26</span>
-    <span class="sbadge sb-amber">(b) Self PUT = customer-created via app only</span>
+    <span class="sbadge sb-amber">(b) Self PUT = customer-created &lt;14d only</span>
   </div>
 
   <div class="tw"><table>
@@ -170,14 +169,24 @@
   </table></div>
 
   <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge — next plan within 15 days</span>
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT — customer-initiated ticket within 15 days (app only)</span>
-    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fb7185;display:inline-block"></span>(c) No action — neither recharged nor self-created ticket</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#2dd4bf;display:inline-block"></span>(a) Recharge — next plan ≤15 days after expiry</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fbbf24;display:inline-block"></span>(b) Self PUT — customer-initiated via app (&lt;14 days)</span>
+    <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px"><span style="width:10px;height:4px;border-radius:2px;background:#fb7185;display:inline-block"></span>(c) No action — neither recharged nor customer-created ticket</span>
   </div>
 </div>
 
 <!-- ══ VIEW 2+3 ══════════════════════════════════════════════════ -->
 <div class="view" id="v23">
+  <div class="fix-note">
+    <span class="fix-icon">⚑</span>
+    <div class="fix-text">
+      <strong>Classification rule:</strong>
+      <strong>Self-created</strong> = ticket created &lt; 20,160 min (14 days) after plan expiry — customer-initiated via app or customer care.
+      <strong>System-created</strong> = ticket created ≥ 20,160 min after expiry — auto-generated at R15, including day 14–15 periphery tickets.
+      Applies equally to PayG and NonPayG.
+    </div>
+  </div>
+
   <div class="filter-bar">
     <div class="fg"><span class="fl">User type</span>
       <select id="v23-user" onchange="renderV23()">
@@ -193,15 +202,20 @@
     <div class="fsep"></div>
     <div class="fg"><span class="fl">Ticket type</span>
       <select id="v23-type" onchange="renderV23()">
-        <option value="All" selected>All tickets</option><option value="Self">Self-created</option><option value="System">System-created</option>
+        <option value="All" selected>All tickets</option>
+        <option value="Self">Self-created (&lt;14d)</option>
+        <option value="System">System-created (≥14d)</option>
       </select>
     </div>
     <span id="v23-badge" class="abadge"></span>
   </div>
-  <div class="shdr" style="margin-top:0"><h3>Status breakdown</h3><div class="sline"></div>
+
+  <div class="shdr" style="margin-top:0">
+    <h3>Status breakdown</h3><div class="sline"></div>
     <span id="v23-s1badge" class="sbadge sb-teal">PayG</span>
-    <span class="sbadge sb-blue">Self = ticket &lt;14d after expiry · System = auto at R15</span>
+    <span class="sbadge sb-blue">Self = &lt;14d after expiry · System = ≥14d (incl. day 14–15 periphery)</span>
   </div>
+
   <div class="tw"><table>
     <thead><tr>
       <th class="l" style="width:100px">Period</th><th style="width:82px">Total PUT</th>
@@ -210,15 +224,20 @@
     </tr></thead>
     <tbody id="v23-tbody1"></tbody>
   </table></div>
+
   <div id="v23-funnel">
-    <div class="shdr"><h3>PayG recovery funnel</h3><div class="sline"></div>
-      <span class="sbadge sb-teal">PayG only</span><span class="sbadge sb-amber">Router recovered → UPI added → Refund done</span>
+    <div class="shdr">
+      <h3>PayG recovery funnel</h3><div class="sline"></div>
+      <span class="sbadge sb-teal">PayG only</span>
+      <span class="sbadge sb-amber">Router recovered → UPI added → Refund done</span>
     </div>
     <div class="tw"><table>
       <thead><tr>
         <th class="l" style="width:100px">Period</th>
-        <th style="width:130px">Router recovered</th><th style="width:130px">+ UPI added</th>
-        <th style="width:130px">+ Refund done</th><th style="min-width:110px">Funnel</th>
+        <th style="width:130px">Router recovered</th>
+        <th style="width:130px">+ UPI added</th>
+        <th style="width:130px">+ Refund done</th>
+        <th style="min-width:110px">Funnel</th>
       </tr></thead>
       <tbody id="v23-tbody2"></tbody>
     </table></div>
@@ -236,7 +255,9 @@
     <div class="fsep"></div>
     <div class="fg"><span class="fl">Ticket type</span>
       <select id="cmp-type" onchange="renderCmp()">
-        <option value="All" selected>All tickets</option><option value="Self">Self-created</option><option value="System">System-created</option>
+        <option value="All" selected>All tickets</option>
+        <option value="Self">Self-created (&lt;14d)</option>
+        <option value="System">System-created (≥14d)</option>
       </select>
     </div>
     <span style="font-size:11px;color:var(--text3);margin-left:8px;display:flex;align-items:center;gap:10px">
@@ -257,21 +278,21 @@
     </table>
   </div>
   <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:-16px;padding:0 4px">
-    <span style="font-size:11px;color:var(--text3)">Bar width = rate relative to max of both cohorts · Bars meet at centre</span>
+    <span style="font-size:11px;color:var(--text3)">Bar = rate relative to max of both cohorts</span>
     <span style="font-size:11px;color:var(--teal)">▲ PayG = PayG performs better</span>
     <span style="font-size:11px;color:var(--blue)">▲ NonPayG = NonPayG performs better</span>
   </div>
 </div>
 
 <footer class="footer">
-  <span class="ft">Wiom Analytics Dashboard · Data sourced from Snowflake via Metabase</span>
+  <span class="ft">Wiom Analytics Dashboard · Snowflake via Metabase · Classification threshold: 20,160 min (14 days) applied to all views</span>
   <span class="ft" style="font-family:var(--mono)">Generated Mar 31, 2026</span>
 </footer>
 
 <script>
-/* ═══════════ DATA ══════════════════════════════════════════════ */
+/* ═══════════════════════ DATA ══════════════════════════════════ */
 
-// View 1 — CORRECTED: (b) Self PUT = customer-created tickets only
+// VIEW 1 — Self PUT = customer-created (<20160 min) only
 const V1=[
   {v:"Weekly",p:"2026-01-26",u:"NonPayG",e:38099,r:33187,s:139,n:4773},
   {v:"Weekly",p:"2026-01-26",u:"PayG",   e:170,  r:149,  s:6,  n:15},
@@ -297,59 +318,64 @@ const V1=[
   {v:"Monthly",p:"2026-03",  u:"PayG",   e:2287, r:2104, s:18, n:165}
 ];
 
+// VIEW 2+3 — Self(Customer) = <20160 min, System = >=20160 min. Fresh query Mar 31 2026.
+// k="Self" = Customer-created, k="System" = System-generated (incl. day 14-15 periphery)
 const V23=[
-  {k:"Self",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:351,op:0,sw:150,rs:201,cr:29,rr:171,ui:1,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-01-26",u:"PayG",t:4,op:0,sw:1,rs:3,cr:1,rr:2,ui:0,prr:2,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-02-02",u:"NonPayG",t:290,op:0,sw:115,rs:175,cr:21,rr:152,ui:2,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-02-02",u:"PayG",t:10,op:0,sw:3,rs:7,cr:0,rr:7,ui:0,prr:7,pu:4,prf:4},
-  {k:"Self",v:"Weekly",p:"2026-02-09",u:"NonPayG",t:287,op:1,sw:122,rs:164,cr:37,rr:125,ui:2,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-02-09",u:"PayG",t:10,op:0,sw:0,rs:10,cr:3,rr:7,ui:0,prr:7,pu:7,prf:5},
-  {k:"Self",v:"Weekly",p:"2026-02-16",u:"NonPayG",t:315,op:0,sw:139,rs:176,cr:55,rr:120,ui:1,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-02-16",u:"PayG",t:9,op:0,sw:1,rs:8,cr:2,rr:6,ui:0,prr:6,pu:6,prf:4},
-  {k:"Self",v:"Weekly",p:"2026-02-23",u:"NonPayG",t:173,op:1,sw:77,rs:95,cr:9,rr:86,ui:0,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-02-23",u:"PayG",t:15,op:0,sw:6,rs:9,cr:1,rr:8,ui:0,prr:8,pu:8,prf:8},
-  {k:"Self",v:"Weekly",p:"2026-03-02",u:"NonPayG",t:320,op:0,sw:171,rs:149,cr:43,rr:102,ui:4,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-03-02",u:"PayG",t:26,op:1,sw:3,rs:22,cr:10,rr:12,ui:0,prr:12,pu:12,prf:12},
-  {k:"Self",v:"Weekly",p:"2026-03-09",u:"NonPayG",t:435,op:176,sw:78,rs:181,cr:50,rr:127,ui:4,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-03-09",u:"PayG",t:25,op:5,sw:0,rs:20,cr:5,rr:15,ui:0,prr:15,pu:15,prf:15},
-  {k:"Self",v:"Weekly",p:"2026-03-16",u:"NonPayG",t:407,op:229,sw:32,rs:146,cr:51,rr:95,ui:0,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-03-16",u:"PayG",t:22,op:6,sw:2,rs:14,cr:6,rr:8,ui:0,prr:8,pu:6,prf:6},
-  {k:"Self",v:"Weekly",p:"2026-03-23",u:"NonPayG",t:549,op:376,sw:27,rs:146,cr:61,rr:83,ui:2,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-03-23",u:"PayG",t:25,op:15,sw:0,rs:10,cr:4,rr:6,ui:0,prr:6,pu:6,prf:5},
-  {k:"Self",v:"Weekly",p:"2026-03-30",u:"NonPayG",t:70,op:63,sw:1,rs:6,cr:2,rr:4,ui:0,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Weekly",p:"2026-03-30",u:"PayG",t:7,op:5,sw:0,rs:2,cr:0,rr:2,ui:0,prr:2,pu:2,prf:2},
-  {k:"Self",v:"Monthly",p:"2026-01",u:"NonPayG",t:303,op:0,sw:135,rs:168,cr:25,rr:142,ui:1,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Monthly",p:"2026-01",u:"PayG",t:2,op:0,sw:0,rs:2,cr:0,rr:2,ui:0,prr:2,pu:0,prf:0},
-  {k:"Self",v:"Monthly",p:"2026-02",u:"NonPayG",t:1061,op:2,sw:447,rs:612,cr:125,rr:482,ui:5,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Monthly",p:"2026-02",u:"PayG",t:43,op:0,sw:11,rs:32,cr:6,rr:26,ui:0,prr:26,pu:23,prf:19},
-  {k:"Self",v:"Monthly",p:"2026-03",u:"NonPayG",t:1833,op:844,sw:330,rs:659,cr:208,rr:441,ui:10,prr:0,pu:0,prf:0},
-  {k:"Self",v:"Monthly",p:"2026-03",u:"PayG",t:108,op:32,sw:5,rs:71,cr:26,rr:45,ui:0,prr:45,pu:43,prf:42},
-  {k:"System",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:4494,op:0,sw:1634,rs:2860,cr:1183,rr:1641,ui:36,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-02-02",u:"NonPayG",t:4345,op:0,sw:1688,rs:2657,cr:1114,rr:1522,ui:21,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-02-09",u:"NonPayG",t:4519,op:0,sw:1876,rs:2643,cr:1083,rr:1539,ui:21,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-02-09",u:"PayG",t:11,op:0,sw:3,rs:8,cr:5,rr:3,ui:0,prr:3,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-02-16",u:"NonPayG",t:5074,op:0,sw:2126,rs:2948,cr:1107,rr:1814,ui:27,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-02-16",u:"PayG",t:35,op:0,sw:13,rs:22,cr:15,rr:7,ui:0,prr:7,pu:1,prf:1},
-  {k:"System",v:"Weekly",p:"2026-02-23",u:"NonPayG",t:4855,op:1,sw:2104,rs:2750,cr:1168,rr:1558,ui:24,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-02-23",u:"PayG",t:19,op:0,sw:6,rs:13,cr:10,rr:3,ui:0,prr:3,pu:2,prf:2},
-  {k:"System",v:"Weekly",p:"2026-03-02",u:"NonPayG",t:4756,op:1,sw:1940,rs:2815,cr:1299,rr:1477,ui:39,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-03-02",u:"PayG",t:32,op:0,sw:13,rs:19,cr:12,rr:7,ui:0,prr:7,pu:3,prf:3},
-  {k:"System",v:"Weekly",p:"2026-03-09",u:"NonPayG",t:4749,op:2034,sw:424,rs:2291,cr:1169,rr:1102,ui:20,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-03-09",u:"PayG",t:44,op:11,sw:4,rs:29,cr:20,rr:9,ui:0,prr:9,pu:1,prf:1},
-  {k:"System",v:"Weekly",p:"2026-03-16",u:"NonPayG",t:4517,op:2813,sw:95,rs:1609,cr:850,rr:749,ui:10,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-03-16",u:"PayG",t:43,op:19,sw:3,rs:21,cr:19,rr:2,ui:0,prr:2,pu:1,prf:1},
-  {k:"System",v:"Weekly",p:"2026-03-23",u:"NonPayG",t:4285,op:3450,sw:64,rs:771,cr:395,rr:373,ui:3,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-03-23",u:"PayG",t:67,op:44,sw:1,rs:22,cr:11,rr:11,ui:0,prr:11,pu:2,prf:2},
-  {k:"System",v:"Weekly",p:"2026-03-30",u:"NonPayG",t:665,op:635,sw:2,rs:28,cr:10,rr:18,ui:0,prr:0,pu:0,prf:0},
-  {k:"System",v:"Weekly",p:"2026-03-30",u:"PayG",t:18,op:18,sw:0,rs:0,cr:0,rr:0,ui:0,prr:0,pu:0,prf:0},
-  {k:"System",v:"Monthly",p:"2026-01",u:"NonPayG",t:3878,op:0,sw:1409,rs:2469,cr:1028,rr:1409,ui:32,prr:0,pu:0,prf:0},
-  {k:"System",v:"Monthly",p:"2026-02",u:"NonPayG",t:18719,op:1,sw:7732,rs:10986,cr:4466,rr:6425,ui:95,prr:0,pu:0,prf:0},
-  {k:"System",v:"Monthly",p:"2026-02",u:"PayG",t:61,op:0,sw:21,rs:40,cr:27,rr:13,ui:0,prr:13,pu:3,prf:3},
-  {k:"System",v:"Monthly",p:"2026-03",u:"NonPayG",t:19662,op:8933,sw:2812,rs:7917,cr:3884,rr:3959,ui:74,prr:0,pu:0,prf:0},
-  {k:"System",v:"Monthly",p:"2026-03",u:"PayG",t:208,op:92,sw:22,rs:94,cr:65,rr:29,ui:0,prr:29,pu:7,prf:7}
+  // ── SELF-CREATED (< 20160 min after expiry) ───────────────────
+  {k:"Self",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:351, op:0,  sw:150, rs:201, cr:29, rr:171,ui:1, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-01-26",u:"PayG",   t:4,   op:0,  sw:1,   rs:3,   cr:1,  rr:2,  ui:0, prr:2, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-02",u:"NonPayG",t:290, op:0,  sw:115, rs:175, cr:21, rr:152,ui:2, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-02",u:"PayG",   t:10,  op:0,  sw:3,   rs:7,   cr:0,  rr:7,  ui:0, prr:7, pu:4, prf:4},
+  {k:"Self",v:"Weekly",p:"2026-02-09",u:"NonPayG",t:287, op:1,  sw:122, rs:164, cr:37, rr:125,ui:2, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-09",u:"PayG",   t:10,  op:0,  sw:0,   rs:10,  cr:3,  rr:7,  ui:0, prr:7, pu:7, prf:5},
+  {k:"Self",v:"Weekly",p:"2026-02-16",u:"NonPayG",t:315, op:0,  sw:139, rs:176, cr:55, rr:120,ui:1, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-16",u:"PayG",   t:9,   op:0,  sw:1,   rs:8,   cr:2,  rr:6,  ui:0, prr:6, pu:6, prf:4},
+  {k:"Self",v:"Weekly",p:"2026-02-23",u:"NonPayG",t:173, op:1,  sw:77,  rs:95,  cr:9,  rr:86, ui:0, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-02-23",u:"PayG",   t:15,  op:0,  sw:6,   rs:9,   cr:1,  rr:8,  ui:0, prr:8, pu:8, prf:8},
+  {k:"Self",v:"Weekly",p:"2026-03-02",u:"NonPayG",t:320, op:0,  sw:171, rs:149, cr:43, rr:102,ui:4, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-02",u:"PayG",   t:26,  op:1,  sw:3,   rs:22,  cr:10, rr:12, ui:0, prr:12,pu:12,prf:12},
+  {k:"Self",v:"Weekly",p:"2026-03-09",u:"NonPayG",t:435, op:166,sw:88,  rs:181, cr:50, rr:127,ui:4, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-09",u:"PayG",   t:25,  op:5,  sw:0,   rs:20,  cr:5,  rr:15, ui:0, prr:15,pu:15,prf:15},
+  {k:"Self",v:"Weekly",p:"2026-03-16",u:"NonPayG",t:407, op:227,sw:32,  rs:148, cr:51, rr:97, ui:0, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-16",u:"PayG",   t:22,  op:6,  sw:2,   rs:14,  cr:6,  rr:8,  ui:0, prr:8, pu:6, prf:6},
+  {k:"Self",v:"Weekly",p:"2026-03-23",u:"NonPayG",t:549, op:372,sw:28,  rs:149, cr:62, rr:85, ui:2, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-23",u:"PayG",   t:25,  op:15, sw:0,   rs:10,  cr:4,  rr:6,  ui:0, prr:6, pu:6, prf:5},
+  {k:"Self",v:"Weekly",p:"2026-03-30",u:"NonPayG",t:85,  op:74, sw:2,   rs:9,   cr:2,  rr:6,  ui:1, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Weekly",p:"2026-03-30",u:"PayG",   t:8,   op:6,  sw:0,   rs:2,   cr:0,  rr:2,  ui:0, prr:2, pu:2, prf:2},
+  {k:"Self",v:"Monthly",p:"2026-01",  u:"NonPayG",t:303, op:0,  sw:135, rs:168, cr:25, rr:142,ui:1, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Monthly",p:"2026-01",  u:"PayG",   t:2,   op:0,  sw:0,   rs:2,   cr:0,  rr:2,  ui:0, prr:2, pu:0, prf:0},
+  {k:"Self",v:"Monthly",p:"2026-02",  u:"NonPayG",t:1061,op:2,  sw:447, rs:612, cr:125,rr:482,ui:5, prr:0, pu:0, prf:0},
+  {k:"Self",v:"Monthly",p:"2026-02",  u:"PayG",   t:43,  op:0,  sw:11,  rs:32,  cr:6,  rr:26, ui:0, prr:26,pu:23,prf:19},
+  {k:"Self",v:"Monthly",p:"2026-03",  u:"NonPayG",t:1848,op:839,sw:342, rs:667, cr:209,rr:447,ui:11,prr:0, pu:0, prf:0},
+  {k:"Self",v:"Monthly",p:"2026-03",  u:"PayG",   t:109, op:33, sw:5,   rs:71,  cr:26, rr:45, ui:0, prr:45,pu:43,prf:42},
+
+  // ── SYSTEM-CREATED (>= 20160 min, incl. day 14-15 periphery) ─
+  {k:"System",v:"Weekly",p:"2026-01-26",u:"NonPayG",t:4505,op:0,   sw:1634,rs:2871,cr:1183,rr:1652,ui:36,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-02",u:"NonPayG",t:4349,op:0,   sw:1688,rs:2661,cr:1114,rr:1526,ui:21,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-09",u:"NonPayG",t:4524,op:0,   sw:1876,rs:2648,cr:1083,rr:1544,ui:21,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-09",u:"PayG",   t:11,  op:0,   sw:3,   rs:8,   cr:5,   rr:3,   ui:0, prr:3, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-16",u:"NonPayG",t:5083,op:0,   sw:2126,rs:2957,cr:1107,rr:1823,ui:27,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-16",u:"PayG",   t:35,  op:0,   sw:13,  rs:22,  cr:15,  rr:7,   ui:0, prr:7, pu:1, prf:1},
+  {k:"System",v:"Weekly",p:"2026-02-23",u:"NonPayG",t:4860,op:1,   sw:2104,rs:2755,cr:1170,rr:1561,ui:24,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-02-23",u:"PayG",   t:19,  op:0,   sw:6,   rs:13,  cr:10,  rr:3,   ui:0, prr:3, pu:2, prf:2},
+  {k:"System",v:"Weekly",p:"2026-03-02",u:"NonPayG",t:4763,op:2,   sw:1939,rs:2822,cr:1299,rr:1484,ui:39,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-02",u:"PayG",   t:32,  op:0,   sw:13,  rs:19,  cr:12,  rr:7,   ui:0, prr:7, pu:3, prf:3},
+  {k:"System",v:"Weekly",p:"2026-03-09",u:"NonPayG",t:4754,op:1984,sw:446, rs:2324,cr:1179,rr:1125,ui:20,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-09",u:"PayG",   t:44,  op:9,   sw:5,   rs:30,  cr:20,  rr:10,  ui:0, prr:10,pu:1, prf:1},
+  {k:"System",v:"Weekly",p:"2026-03-16",u:"NonPayG",t:4522,op:2799,sw:96,  rs:1627,cr:860, rr:757, ui:10,prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-16",u:"PayG",   t:43,  op:19,  sw:3,   rs:21,  cr:19,  rr:2,   ui:0, prr:2, pu:1, prf:1},
+  {k:"System",v:"Weekly",p:"2026-03-23",u:"NonPayG",t:4287,op:3422,sw:66,  rs:799, cr:416, rr:382, ui:1, prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-23",u:"PayG",   t:67,  op:44,  sw:1,   rs:22,  cr:11,  rr:11,  ui:0, prr:11,pu:2, prf:2},
+  {k:"System",v:"Weekly",p:"2026-03-30",u:"NonPayG",t:719, op:679, sw:3,   rs:37,  cr:14,  rr:23,  ui:0, prr:0, pu:0, prf:0},
+  {k:"System",v:"Weekly",p:"2026-03-30",u:"PayG",   t:19,  op:19,  sw:0,   rs:0,   cr:0,   rr:0,   ui:0, prr:0, pu:0, prf:0},
+  {k:"System",v:"Monthly",p:"2026-01", u:"NonPayG", t:3887,op:0,   sw:1409,rs:2478,cr:1028,rr:1418,ui:32,prr:0, pu:0, prf:0},
+  {k:"System",v:"Monthly",p:"2026-02", u:"NonPayG", t:18743,op:1,  sw:7732,rs:11010,cr:4468,rr:6447,ui:95,prr:0, pu:0, prf:0},
+  {k:"System",v:"Monthly",p:"2026-02", u:"PayG",    t:61,  op:0,   sw:21,  rs:40,  cr:27,  rr:13,  ui:0, prr:13,pu:3, prf:3},
+  {k:"System",v:"Monthly",p:"2026-03", u:"NonPayG", t:19736,op:8886,sw:2837,rs:8013,cr:3929,rr:4012,ui:72,prr:0, pu:0, prf:0},
+  {k:"System",v:"Monthly",p:"2026-03", u:"PayG",    t:209, op:91,  sw:23,  rs:95,  cr:65,  rr:30,  ui:0, prr:30,pu:7, prf:7}
 ];
 
-/* ═══════════ HELPERS ═══════════════════════════════════════════ */
+/* ═══════════════════════ HELPERS ═══════════════════════════════ */
 const fN=n=>n.toLocaleString('en-IN');
 const fK=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':String(n);
 const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
@@ -365,11 +391,11 @@ function setBadge(el,u){
   const x=m[u]||m.All;el.textContent=x.l;el.style.background=x.bg;el.style.color=x.c;
 }
 function setTBadge(el,k){
-  const m={Self:{bg:'rgba(96,165,250,.15)',c:'#60a5fa',l:'Self-created'},System:{bg:'rgba(251,191,36,.15)',c:'#fbbf24',l:'System-created'},All:{bg:'rgba(148,163,184,.12)',c:'#94a3b8',l:'All ticket types'}};
+  const m={Self:{bg:'rgba(96,165,250,.15)',c:'#60a5fa',l:'Self-created (<14d)'},System:{bg:'rgba(251,191,36,.15)',c:'#fbbf24',l:'System-created (≥14d)'},All:{bg:'rgba(148,163,184,.12)',c:'#94a3b8',l:'All ticket types'}};
   const x=m[k]||m.All;el.textContent=x.l;el.style.background=x.bg;el.style.color=x.c;
 }
 
-/* ═══════════ VIEW 1 ════════════════════════════════════════════ */
+/* ═══════════════════════ VIEW 1 ════════════════════════════════ */
 function gV1(u,t){
   const rows=V1.filter(r=>r.v===t);
   const periods=[...new Set(rows.map(r=>r.p))].sort();
@@ -378,9 +404,9 @@ function gV1(u,t){
     return{period:p,e:s.reduce((a,x)=>a+x.e,0),r:s.reduce((a,x)=>a+x.r,0),s:s.reduce((a,x)=>a+x.s,0),n:s.reduce((a,x)=>a+x.n,0)};
   }).filter(d=>d.e>0);
 }
-function v1Row(d,label,isTot){
+function v1Row(d,lbl,isTot){
   const rp=d.e?+(d.r/d.e*100).toFixed(1):0,sp=d.e?+(d.s/d.e*100).toFixed(1):0,np=d.e?+(d.n/d.e*100).toFixed(1):0;
-  return`<tr${isTot?' class="tr"':''}><td class="l">${label}</td><td>${fN(d.e)}</td><td class="c-teal">${fN(d.r)}</td><td><span style="color:#2dd4bf">${rp}%</span></td><td class="c-amber">${fN(d.s)}</td><td><span style="color:#fbbf24">${sp}%</span></td><td class="c-coral">${fN(d.n)}</td><td><span style="color:#fb7185">${np}%</span></td><td><div class="bs-wrap"><div class="bs" style="width:${rp}%;background:#2dd4bf"></div><div class="bs" style="width:${sp}%;background:#fbbf24"></div><div class="bs" style="width:${np}%;background:#fb7185"></div></div></td></tr>`;
+  return`<tr${isTot?' class="tr"':''}><td class="l">${lbl}</td><td>${fN(d.e)}</td><td class="c-teal">${fN(d.r)}</td><td><span style="color:#2dd4bf">${rp}%</span></td><td class="c-amber">${fN(d.s)}</td><td><span style="color:#fbbf24">${sp}%</span></td><td class="c-coral">${fN(d.n)}</td><td><span style="color:#fb7185">${np}%</span></td><td><div class="bs-wrap"><div class="bs" style="width:${rp}%;background:#2dd4bf"></div><div class="bs" style="width:${sp}%;background:#fbbf24"></div><div class="bs" style="width:${np}%;background:#fb7185"></div></div></td></tr>`;
 }
 function renderV1(){
   const u=document.getElementById('v1-user').value,t=document.getElementById('v1-time').value,data=gV1(u,t);
@@ -389,14 +415,14 @@ function renderV1(){
   document.getElementById('v1-kpis').innerHTML=`
     <div class="kpi"><div class="kpi-lbl">Total plan expiries</div><div class="kpi-val">${fK(tE)}</div><div class="kpi-sub">${u==='All'?'All users':u} · R15 matured</div></div>
     <div class="kpi"><div class="kpi-lbl">(a) Recharged R0–15</div><div class="kpi-val c-teal">${fK(tR)}</div><div class="kpi-sub teal">${pctF(tR,tE)} of expiries</div></div>
-    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15 <span style="font-size:9px;opacity:.7">(app-created)</span></div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div>
+    <div class="kpi"><div class="kpi-lbl">(b) Self PUT R0–15 <span style="font-size:9px;opacity:.7">(app, &lt;14d)</span></div><div class="kpi-val c-amber">${fK(tS)}</div><div class="kpi-sub amber">${pctF(tS,tE)} of expiries</div></div>
     <div class="kpi"><div class="kpi-lbl">(c) No action R0–15</div><div class="kpi-val c-coral">${fK(tN)}</div><div class="kpi-sub coral">${pctF(tN,tE)} of expiries</div></div>`;
   const rows=data.map(d=>v1Row(d,pl(d.period,t),false));
   rows.push(v1Row({e:tE,r:tR,s:tS,n:tN},'TOTAL',true));
   document.getElementById('v1-tbody').innerHTML=rows.length>1?rows.join(''):`<tr class="er"><td colspan="9">No data</td></tr>`;
 }
 
-/* ═══════════ VIEW 2+3 ══════════════════════════════════════════ */
+/* ═══════════════════════ VIEW 2+3 ══════════════════════════════ */
 function gV23(u,t,k){
   let rows=V23.filter(r=>r.v===t);
   if(k!=='All') rows=rows.filter(r=>r.k===k);
@@ -407,12 +433,12 @@ function gV23(u,t,k){
     return{period:p,t:s.reduce((a,x)=>a+x.t,0),op:s.reduce((a,x)=>a+x.op,0),sw:s.reduce((a,x)=>a+x.sw,0),rs:s.reduce((a,x)=>a+x.rs,0),cr:s.reduce((a,x)=>a+x.cr,0),rr:s.reduce((a,x)=>a+x.rr,0),ui:s.reduce((a,x)=>a+x.ui,0),prr:pg.reduce((a,x)=>a+x.prr,0),pu:pg.reduce((a,x)=>a+x.pu,0),prf:pg.reduce((a,x)=>a+x.prf,0)};
   }).filter(d=>d.t>0);
 }
-function s1Row(d,label,isTot){
-  return`<tr${isTot?' class="tr"':''}><td class="l">${label}</td><td>${fN(d.t)}</td><td class="c-coral">${fN(d.op)}<div class="td-sub">${pct(d.op,d.t)}</div></td><td class="c-amber">${fN(d.sw)}<div class="td-sub">${pct(d.sw,d.t)}</div></td><td class="c-green">${fN(d.rs)}<div class="td-sub">${pct(d.rs,d.t)}</div></td><td>${fN(d.cr)}<div class="td-sub">${pct(d.cr,d.rs)} of res.</div></td><td>${fN(d.rr)}<div class="td-sub">${pct(d.rr,d.rs)} of res.</div></td><td class="c-slate">${fN(d.ui)}<div class="td-sub">${pct(d.ui,d.rs)} of res.</div></td></tr>`;
+function s1Row(d,lbl,isTot){
+  return`<tr${isTot?' class="tr"':''}><td class="l">${lbl}</td><td>${fN(d.t)}</td><td class="c-coral">${fN(d.op)}<div class="td-sub">${pct(d.op,d.t)}</div></td><td class="c-amber">${fN(d.sw)}<div class="td-sub">${pct(d.sw,d.t)}</div></td><td class="c-green">${fN(d.rs)}<div class="td-sub">${pct(d.rs,d.t)}</div></td><td>${fN(d.cr)}<div class="td-sub">${pct(d.cr,d.rs)} of res.</div></td><td>${fN(d.rr)}<div class="td-sub">${pct(d.rr,d.rs)} of res.</div></td><td class="c-slate">${fN(d.ui)}<div class="td-sub">${pct(d.ui,d.rs)} of res.</div></td></tr>`;
 }
-function s2Row(d,label,isTot){
+function s2Row(d,lbl,isTot){
   const w1=d.prr?+(d.pu/d.prr*100).toFixed(0):0,w2=d.pu?+(d.prf/d.pu*100).toFixed(0):0;
-  return`<tr${isTot?' class="tr"':''}><td class="l">${label}</td><td class="c-blue">${fN(d.prr)}</td><td class="c-amber">${fN(d.pu)}<div class="td-sub">${pct(d.pu,d.prr)} of rcvrd</div></td><td class="c-teal">${fN(d.prf)}<div class="td-sub">${pct(d.prf,d.pu)} of UPI</div></td><td><div class="fw"><div class="fb"><div class="ff" style="width:${w1}%;background:#fbbf24"></div></div><div class="fb"><div class="ff" style="width:${w2}%;background:#2dd4bf"></div></div></div><div style="display:flex;gap:8px;margin-top:3px"><span style="font-size:10px;color:var(--text3)">${w1}% UPI</span><span style="font-size:10px;color:var(--text3)">${w2}% refund</span></div></td></tr>`;
+  return`<tr${isTot?' class="tr"':''}><td class="l">${lbl}</td><td class="c-blue">${fN(d.prr)}</td><td class="c-amber">${fN(d.pu)}<div class="td-sub">${pct(d.pu,d.prr)} of rcvrd</div></td><td class="c-teal">${fN(d.prf)}<div class="td-sub">${pct(d.prf,d.pu)} of UPI</div></td><td><div class="fw"><div class="fb"><div class="ff" style="width:${w1}%;background:#fbbf24"></div></div><div class="fb"><div class="ff" style="width:${w2}%;background:#2dd4bf"></div></div></div><div style="display:flex;gap:8px;margin-top:3px"><span style="font-size:10px;color:var(--text3)">${w1}% UPI</span><span style="font-size:10px;color:var(--text3)">${w2}% refund</span></div></td></tr>`;
 }
 function renderV23(){
   const u=document.getElementById('v23-user').value,t=document.getElementById('v23-time').value,k=document.getElementById('v23-type').value,data=gV23(u,t,k);
@@ -430,101 +456,67 @@ function renderV23(){
   }
 }
 
-/* ═══════════ COMPARISON VIEW ═══════════════════════════════════ */
-function sumV1(u,t){
-  const rows=V1.filter(r=>r.v===t&&r.u===u);
-  return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};
-}
-function sumV23(u,t,k){
-  let rows=V23.filter(r=>r.v===t&&r.u===u);
-  if(k!=='All') rows=rows.filter(r=>r.k===k);
-  return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};
-}
+/* ═══════════════════════ COMPARISON VIEW ═══════════════════════ */
+function sumV1(u,t){const rows=V1.filter(r=>r.v===t&&r.u===u);return{e:rows.reduce((a,x)=>a+x.e,0),r:rows.reduce((a,x)=>a+x.r,0),s:rows.reduce((a,x)=>a+x.s,0),n:rows.reduce((a,x)=>a+x.n,0)};}
+function sumV23(u,t,k){let rows=V23.filter(r=>r.v===t&&r.u===u);if(k!=='All')rows=rows.filter(r=>r.k===k);return{t:rows.reduce((a,x)=>a+x.t,0),op:rows.reduce((a,x)=>a+x.op,0),sw:rows.reduce((a,x)=>a+x.sw,0),rs:rows.reduce((a,x)=>a+x.rs,0),cr:rows.reduce((a,x)=>a+x.cr,0),rr:rows.reduce((a,x)=>a+x.rr,0),ui:rows.reduce((a,x)=>a+x.ui,0),prr:rows.reduce((a,x)=>a+x.prr,0),pu:rows.reduce((a,x)=>a+x.pu,0),prf:rows.reduce((a,x)=>a+x.prf,0)};}
 
-function cmpRow(label,sub,pgV,pgP,npgV,npgP,higherBetter,isSub){
-  const pg=pgP??0,npg=npgP??0;
-  const scale=Math.max(pg,npg,1);
-  const pgW=Math.round(pg/scale*72),npW=Math.round(npg/scale*72);
-  const diff=pg-npg;
-  const winner=Math.abs(diff)<0.5?'neutral':(higherBetter?(diff>0?'payg':'nonpayg'):(diff<0?'payg':'nonpayg'));
+function cmpRow(lbl,sub,pgV,pgP,npgV,npgP,hb,isSub){
+  const pg=pgP??0,npg=npgP??0,scale=Math.max(pg,npg,1);
+  const pgW=Math.round(pg/scale*72),npW=Math.round(npg/scale*72),diff=pg-npg;
+  const winner=Math.abs(diff)<0.5?'neutral':(hb?(diff>0?'payg':'nonpayg'):(diff<0?'payg':'nonpayg'));
   const dlbl=winner==='neutral'?'≈ Equal':(winner==='payg'?'▲ PayG':'▲ NonPayG');
   const dcls=winner==='neutral'?'delta-neutral':winner==='payg'?'delta-payg':'delta-nonpayg';
   const pp=Math.abs(diff)>=0.5?` ${Math.abs(diff).toFixed(1)}pp`:'';
-  const rcls=isSub?' class="sub-metric"':'';
-  return`<tr${rcls}>
-    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
-    <td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${pgV!==null?fN(pgV):'—'}</div>${pgP!==null?`<div class="val-pct">${pgP.toFixed(1)}%</div>`:''}</td>
-    <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td>
-    <td class="val-cell" style="text-align:right"><div style="color:var(--blue);font-family:var(--mono)">${npgV!==null?fN(npgV):'—'}</div>${npgP!==null?`<div class="val-pct">${npgP.toFixed(1)}%</div>`:''}</td>
-    <td style="text-align:center"><span class="delta ${dcls}">${dlbl}${pp}</span></td>
-  </tr>`;
+  return`<tr${isSub?' class="sub-metric"':''}><td class="l"><div class="metric-lbl">${lbl}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td><td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${pgV!==null?fN(pgV):'—'}</div>${pgP!==null?`<div class="val-pct">${pgP.toFixed(1)}%</div>`:''}</td><td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td><td class="val-cell" style="text-align:right"><div style="color:var(--blue);font-family:var(--mono)">${npgV!==null?fN(npgV):'—'}</div>${npgP!==null?`<div class="val-pct">${npgP.toFixed(1)}%</div>`:''}</td><td style="text-align:center"><span class="delta ${dcls}">${dlbl}${pp}</span></td></tr>`;
 }
-function volRow(label,sub,pgV,npgV){
+function volRow(lbl,sub,pgV,npgV){
   const scale=Math.max(pgV,npgV,1),pgW=Math.round(pgV/scale*72),npW=Math.round(npgV/scale*72);
-  return`<tr>
-    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
-    <td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${fN(pgV)}</div></td>
-    <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td>
-    <td class="val-cell" style="text-align:right"><div style="color:var(--blue);font-family:var(--mono)">${fN(npgV)}</div></td>
-    <td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td>
-  </tr>`;
+  return`<tr><td class="l"><div class="metric-lbl">${lbl}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td><td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${fN(pgV)}</div></td><td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${pgW}px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"><div class="bnpg" style="width:${npW}px"></div></div></div></td><td class="val-cell" style="text-align:right"><div style="color:var(--blue);font-family:var(--mono)">${fN(npgV)}</div></td><td style="text-align:center"><span class="delta delta-neutral">— Volume</span></td></tr>`;
 }
-function groupRow(label){return`<tr class="group-row"><td colspan="5"><span class="group-label">${label}</span></td></tr>`;}
-function paygOnlyRow(label,sub,pgV,pgP){
+function groupRow(lbl){return`<tr class="group-row"><td colspan="5"><span class="group-label">${lbl}</span></td></tr>`;}
+function paygOnlyRow(lbl,sub,pgV,pgP){
   const w=Math.round(Math.min(pgP??0,100)/100*72);
-  return`<tr>
-    <td class="l"><div class="metric-lbl">${label}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td>
-    <td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${pgV!==null?fN(pgV):'—'}</div>${pgP!==null?`<div class="val-pct">${pgP.toFixed(1)}%</div>`:''}</td>
-    <td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${w}px;border-radius:2px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"></div></div></td>
-    <td class="val-cell" style="text-align:right;color:var(--text3);font-size:11px">N/A</td>
-    <td style="text-align:center"><span class="delta delta-neutral">PayG only</span></td>
-  </tr>`;
+  return`<tr><td class="l"><div class="metric-lbl">${lbl}</div>${sub?`<div class="metric-sub">${sub}</div>`:''}</td><td class="val-cell" style="text-align:right"><div style="color:var(--teal);font-family:var(--mono)">${pgV!==null?fN(pgV):'—'}</div>${pgP!==null?`<div class="val-pct">${pgP.toFixed(1)}%</div>`:''}</td><td><div class="dual-bar"><div class="bar-payg-wrap"><div class="bpg" style="width:${w}px;border-radius:2px"></div></div><div class="bar-center-tick"></div><div class="bar-nonpayg-wrap"></div></div></td><td class="val-cell" style="text-align:right;color:var(--text3);font-size:11px">N/A</td><td style="text-align:center"><span class="delta delta-neutral">PayG only</span></td></tr>`;
 }
 
 function renderCmp(){
-  const t=document.getElementById('cmp-time').value;
-  const k=document.getElementById('cmp-type').value;
+  const t=document.getElementById('cmp-time').value,k=document.getElementById('cmp-type').value;
   const pg1=sumV1('PayG',t),npg1=sumV1('NonPayG',t);
   const pgP=sumV23('PayG',t,k),npgP=sumV23('NonPayG',t,k);
   const pgSelf=sumV23('PayG',t,'Self'),pgSys=sumV23('PayG',t,'System');
-
   const rows=[];
 
-  // ── SECTION 1: PLAN EXPIRY
-  rows.push(groupRow('Plan Expiry Funnel — R0–15 window (corrected: self PUT = app-created only)'));
+  rows.push(groupRow('Plan Expiry Funnel — R0–15 (Self PUT = customer-created &lt;14d only)'));
   rows.push(volRow('Total plan expiries','All expiries where R15 has elapsed',pg1.e,npg1.e));
-  rows.push(cmpRow('(a) Recharge R0–15','Next plan started within 15 days of expiry',pg1.r,pctN(pg1.r,pg1.e),npg1.r,pctN(npg1.r,npg1.e),true,false));
-  rows.push(cmpRow('(b) Self PUT R0–15','Customer-initiated ROUTER_PICKUP ticket via app within 15 days',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),true,false));
-  rows.push(cmpRow('Self PUT (% of non-recharged)','Of those who did not recharge, how many created a self PUT',pg1.s,pctN(pg1.s,pg1.s+pg1.n),npg1.s,pctN(npg1.s,npg1.s+npg1.n),true,false));
-  rows.push(cmpRow('(c) No action R0–15','Neither recharged nor self-created a ticket',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
+  rows.push(cmpRow('(a) Recharge R0–15','Next plan started ≤15 days after expiry',pg1.r,pctN(pg1.r,pg1.e),npg1.r,pctN(npg1.r,npg1.e),true,false));
+  rows.push(cmpRow('(b) Self PUT R0–15','Customer-initiated ticket via app, within 14 days',pg1.s,pctN(pg1.s,pg1.e),npg1.s,pctN(npg1.s,npg1.e),true,false));
+  rows.push(cmpRow('Self PUT (% of non-recharged)','Of those who did not recharge, how many self-created a ticket',pg1.s,pctN(pg1.s,pg1.s+pg1.n),npg1.s,pctN(npg1.s,npg1.s+npg1.n),true,false));
+  rows.push(cmpRow('(c) No action R0–15','No recharge and no customer-created ticket',pg1.n,pctN(pg1.n,pg1.e),npg1.n,pctN(npg1.n,npg1.e),false,false));
 
-  // ── SECTION 2: TICKET STATUS
-  const tkLabel=k==='Self'?'Self-Created':k==='System'?'System-Created':'All';
+  const tkLabel=k==='Self'?'Self-Created (<14d)':k==='System'?'System-Created (≥14d)':'All';
   rows.push(groupRow(`Pickup Tickets — Status Breakdown (${tkLabel})`));
   rows.push(volRow('Total PUT tickets','ROUTER_PICKUP tasks from Jan 26, 2026',pgP.t,npgP.t));
-  rows.push(cmpRow('Open rate','Tickets with status 0 or 1 (unresolved)',pgP.op,pctN(pgP.op,pgP.t),npgP.op,pctN(npgP.op,npgP.t),false,false));
+  rows.push(cmpRow('Open rate','Tickets with status 0 or 1',pgP.op,pctN(pgP.op,pgP.t),npgP.op,pctN(npgP.op,npgP.t),false,false));
   rows.push(cmpRow('Send to Wiom rate','Tickets escalated (status 3)',pgP.sw,pctN(pgP.sw,pgP.t),npgP.sw,pctN(npgP.sw,npgP.t),false,false));
   rows.push(cmpRow('Resolution rate','Tickets closed as resolved (status 2)',pgP.rs,pctN(pgP.rs,pgP.t),npgP.rs,pctN(npgP.rs,npgP.t),true,false));
-  rows.push(cmpRow('→ Customer recharge','% of resolved where customer recharged',pgP.cr,pctN(pgP.cr,pgP.rs),npgP.cr,pctN(npgP.cr,npgP.rs),null,true));
-  rows.push(cmpRow('→ Router recovered','% of resolved where router was physically picked up',pgP.rr,pctN(pgP.rr,pgP.rs),npgP.rr,pctN(npgP.rr,npgP.rs),null,true));
-  rows.push(cmpRow('→ Unidentified','% of resolved with no recovery type and no payment',pgP.ui,pctN(pgP.ui,pgP.rs),npgP.ui,pctN(npgP.ui,npgP.rs),false,true));
+  rows.push(cmpRow('→ Customer recharge','% of resolved — customer recharged',pgP.cr,pctN(pgP.cr,pgP.rs),npgP.cr,pctN(npgP.cr,npgP.rs),null,true));
+  rows.push(cmpRow('→ Router recovered','% of resolved — router physically picked up',pgP.rr,pctN(pgP.rr,pgP.rs),npgP.rr,pctN(npgP.rr,npgP.rs),null,true));
+  rows.push(cmpRow('→ Unidentified','% of resolved — no recovery type, no payment',pgP.ui,pctN(pgP.ui,pgP.rs),npgP.ui,pctN(npgP.ui,npgP.rs),false,true));
 
-  // ── SECTION 3: PAYG FUNNEL — Self created
-  rows.push(groupRow('PayG Recovery Funnel — Self-Created Tickets (PayG only, no NonPayG equivalent)'));
+  rows.push(groupRow('PayG Recovery Funnel — Self-Created Tickets (PayG only; NonPayG has no UPI/refund process)'));
   rows.push(paygOnlyRow('Router recovered',null,pgSelf.prr,null));
-  rows.push(paygOnlyRow('UPI added after recovery','% of recovered PayG who added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr)));
-  rows.push(paygOnlyRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu)));
+  rows.push(paygOnlyRow('UPI added after recovery','% of recovered who added UPI for refund',pgSelf.pu,pctN(pgSelf.pu,pgSelf.prr)));
+  rows.push(paygOnlyRow('Refund successful','% of UPI-added where refund = SUCCESSFUL',pgSelf.prf,pctN(pgSelf.prf,pgSelf.pu)));
 
-  // ── SECTION 4: PAYG FUNNEL — System created
   rows.push(groupRow('PayG Recovery Funnel — System-Created Tickets (PayG only)'));
   rows.push(paygOnlyRow('Router recovered',null,pgSys.prr,null));
-  rows.push(paygOnlyRow('UPI added after recovery','% of recovered PayG who added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr)));
-  rows.push(paygOnlyRow('Refund done','% of UPI-added where refund was SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu)));
+  rows.push(paygOnlyRow('UPI added after recovery','% of recovered who added UPI for refund',pgSys.pu,pctN(pgSys.pu,pgSys.prr)));
+  rows.push(paygOnlyRow('Refund successful','% of UPI-added where refund = SUCCESSFUL',pgSys.prf,pctN(pgSys.prf,pgSys.pu)));
 
   document.getElementById('cmp-tbody').innerHTML=rows.join('');
 }
 
-/* ═══════════ TAB ═══════════════════════════════════════════════ */
+/* ═══════════════════════ TAB SWITCH ════════════════════════════ */
 function switchTab(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
